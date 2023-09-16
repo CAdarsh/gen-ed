@@ -14,7 +14,7 @@ import { llm } from '../../../../services/llm.ts';
 import { templates } from '../../../../utils/templates.ts';
 import { logger } from '../../../../services/logger.ts';
 import { Topics } from '../../../../models/Topic.ts';
-import { SubTopics } from 'models/SubTopics.ts';
+import { SubTopics } from '../../../../models/SubTopics.ts';
 
 type Reference = {
   text: string;

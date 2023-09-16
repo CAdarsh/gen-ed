@@ -15,7 +15,7 @@ import { templates } from '../../../../utils/templates.js';
 import { logger } from '../../../../services/logger.js';
 import { Topics } from '../../../../models/Topic.js';
 import { Evaluations } from '../../../../models/Evaluation/Evaluation.js';
-import { Users } from 'models/User/User.ts';
+import { Users } from '../../../../models/User/User.ts';
 
 
 const handler = async (req: Request, res: Response) => {
