@@ -4,14 +4,14 @@ import { Topics } from "../Topic.js";
 import get_conversation_log from "./methods/get_conversation_log.js";
 
 interface EvaluationAttrs {
-  topicId: string;
+  topic: string;
   userId: string;
 }
 
 
 
 interface EvaluationDoc extends mongoose.Document {
-  topicId: string;
+  topic: string;
   userId: string;
   evaluation: { _id?: string, prompt: string, correctAnsPrompt: string, incorrectAnsPrompt: string, response: string, answer: string, time: Date }[];
   answers: { _id?: string, answer: string, time: Date }[];
@@ -24,10 +24,8 @@ interface EvaluationModel extends mongoose.Model<EvaluationDoc> {
 
 const evaluationsSchema = new mongoose.Schema({
 
-  topicId: {
-    type: mongoose.Types.ObjectId,
-    ref: "Topic",
-    required: true
+  topic: {
+    type: String
   },
   userId: {
     type: mongoose.Types.ObjectId,
@@ -36,10 +34,7 @@ const evaluationsSchema = new mongoose.Schema({
   },
   evaluation: [
     {
-      prompt: {
-        type: String
-      },
-      response: {
+      question: {
         type: String
       },
       correctAnsPrompt: {
@@ -81,7 +76,7 @@ const evaluationsSchema = new mongoose.Schema({
   }
 })
 
-evaluationsSchema.index({ "topicId": 1, "userId": 1 })
+evaluationsSchema.index({ "topic": 1, "userId": 1 })
 
 evaluationsSchema.statics.build = (attrs: EvaluationAttrs) => {
   return new Evaluations(attrs);
