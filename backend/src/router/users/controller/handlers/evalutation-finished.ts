@@ -7,7 +7,7 @@ import { BadRequestError } from '../../../../errors/index.js';
 import { Users } from '../../../../models/User/User.js';
 import { Topics } from '../../../../models/Topic.js';
 import { Episodes } from '../../../../models/Episode/Episode.js';
-import { Evaluations } from 'models/Evaluation/Evaluation.ts';
+import { Evaluations } from '../../../../models/Evaluation/Evaluation.ts';
 
 const handler = async (req: Request, res: Response) => {
   const user = req.currentUser;

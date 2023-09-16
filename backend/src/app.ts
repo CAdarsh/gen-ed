@@ -11,8 +11,8 @@ import { currentUser } from "./middleware/current-user.js";
 import { appRoutesPrefix, evaluationRoutePrefix, learnerChatRoutePrefix, userRoutePrefix } from "./router/routes.js";
 import { StatusCodes } from "http-status-codes";
 import { userRouter } from "./router/users/index.js";
-import { evaluateRouter } from "router/evaluations/index.ts";
-import { learnerRouter } from "router/learner/index.ts";
+import { evaluateRouter } from "./router/evaluations/index.ts";
+import { learnerRouter } from "./router/learner/index.ts";
 const app = express();
 
 // app.use(helmet());
