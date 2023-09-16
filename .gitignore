@@ -1,0 +1,7 @@
+node_modules
+config
+dist
+backend/node_modules
+backend/dist
+backend/config
+backend/node_modules/*
