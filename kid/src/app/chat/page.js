@@ -15,13 +15,14 @@ const dm_sans = DM_Sans({
   display: 'swap',
 })
  
-
-      
-
 export default function Chat() {
 
   const [isLoading, setLoading] = useState(false);
-
+  const [ suggestedFollowUps, setSuggestedFollowUps ] = useState([
+    "What if plant runs out of CO2?",
+    "Is Manchester United real?",
+    "Concept Learned 👍",
+  ])
   const [messages, setMessages] = useState([{
     message: "Okay, little buddy, imagine plants are like magical food-making factories. They need three things to make their food: sunlight, water, and something called air that has a special gas called carbon dioxide in it. Sunlight: Plants use sunlight, which is like the sun's bright and warm hugs, to start making their food.    Water: They also drink water through their roots from the ground, just like you drink water from a glass. Water helps plants stay strong and healthy. Air: Plants take a special gas called carbon dioxide from the air. It's like a secret ingredient for their food. Now, here's the magical part! Inside the plant, there are tiny little things called chlorophyll that love sunlight. They catch the sunlight and use it to mix the water and carbon dioxide together to make food. This special food is called glucose, and it's what helps the plant grow big and strong! And guess what? When plants make this food, they also give us a gift! They release something called oxygen into the air, and we breathe it to stay alive. So, plants are like the Earth's helpers. They make food for themselves and give us fresh air to breathe! So, remember, plants are like food-making factories using sunlight, water, and air to make food, and they give us oxygen as a gift. That's how photosynthesis works, like magic in nature!",
     sender: "Agent"
@@ -36,6 +37,9 @@ export default function Chat() {
     message: "Thanks I got it!",
     sender: "User"
 }]);
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,13 +56,16 @@ export default function Chat() {
     e.target.message.value = '';
   };
 
+  const suggestedTrigger = (prompt) => {
+    setMessages([...messages, { message: prompt, sender: "User" }]);
+  }
+
   const imageStyle = {
     borderRadius: '50px',
     marginTop: "10px",
     objectFit: "cover"
 
   }
-
 
   const chatImageStyle = {
     display: "block",
@@ -119,8 +126,8 @@ useEffect(() => {
                 <div className={styles.singleChatText} key={message.id}>
                     <Image
                         src="/profile/im_chat.jpg"
-                        width={500}
-                        height={350}
+                        width={360}
+                        height={240}
                         style={chatImageStyle}
                         alt="My image"
                     />
@@ -129,7 +136,7 @@ useEffect(() => {
         </div>
         ); else
         return (
-            <div className={styles.singleChat}>
+            <div className={`${styles.singleChat} ${styles.userChat}`}>
                     <div className={styles.singleChatText} key={message.id}>{message.message}</div>
                     <Image
                     src="/profile/kid.png"
@@ -140,14 +147,13 @@ useEffect(() => {
                 />
             </div>
             )})}
-      {/* </ul> */}
       {
         isLoading ? (
             <Player
               autoplay
               loop
               src="https://lottie.host/3d174000-73f3-4752-af39-1b771a945c2b/nBSV1hC1h2.json"
-              style={{ height: '80px', width: '80px' }}
+              style={{ height: '100px', width: '100px' }}
           >
           </Player> ) : <></>
       }
@@ -155,11 +161,16 @@ useEffect(() => {
         <input className={`${styles.inpForm} ${dm_sans.className}`} placeholder='Enter prompt' type="text" name="message" />
         <button className={`${styles.button} ${dm_sans.className}`} onClick={onClickForm} type="submit">Send</button>
       </form>
-      <div ref={messagesEndRef} />
 
+      <div className={styles.suggested}>
+        {
+          suggestedFollowUps.map((followup) => (
+            <div onClick={()=>suggestedTrigger(followup)}>{followup}</div>
+          ))
+        }
       </div>
-
-     
+      <div ref={messagesEndRef} />
+      </div>     
       </div>
       </div>
 

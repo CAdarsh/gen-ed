@@ -57,7 +57,6 @@
   .logo {
     border-radius: 50;
     width: 100px;
-    /* background-color: blue; */
 }
 
 .singleChat{
@@ -67,7 +66,13 @@
     align-items: normal;
     justify-content: center;
     gap: 15px;
+    width: 60%;
 }
+
+.userChat{
+    margin-left: 40%;
+}
+
 .singleChatText{
     justify-content: center;
     align-items: center;
@@ -117,21 +122,56 @@
     font-size: 16px;
 }
 
+.suggested {
+    width: 96%;
+    margin-left: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: end;
+}
 
 
 @keyframes glow {
     0% {
       /* box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.5);
        */
-    -webkit-box-shadow: 0px 10px 40px -10px rgba(98, 255, 66, 0.765);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(98, 255, 66, 0.765);
     }
     50% {
-    -webkit-box-shadow: 0px 24px 40px -10px rgba(98, 255, 66, 1);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(98, 255, 66, 1);
     }
     100% {
-    -webkit-box-shadow: 0px 10px 40px -10px rgba(98, 255, 66, 0.728);
+    -webkit-box-shadow: 0px 0px 40px -10px rgba(98, 255, 66, 0.728);
     }
   }
+
+  @keyframes glowGold {
+    0% {
+      /* box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.5);
+       */
+    -webkit-box-shadow: 0px 10px 40px -10px rgba(255, 230, 66, 0.765);
+    }
+    50% {
+    -webkit-box-shadow: 0px 24px 40px -10px rgba(255, 230, 66, 1);
+    }
+    100% {
+    -webkit-box-shadow: 0px 10px 40px -10px rgba(255, 230, 66, 0.728);
+    }
+  }
+
+  .suggested div{
+    border: 2px solid rgb(28, 118, 31);
+    border-radius: 8px;
+    padding: 10px;
+    animation: 8s glowGold infinite ease-in-out;
+    background-color: #d6eed0;
+
+}
+
+.suggested div:hover{
+    cursor: pointer;
+}
 
 .chatCont{
     border: 2px solid rgb(4, 84, 4);
