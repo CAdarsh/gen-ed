@@ -46,106 +46,74 @@ const handler = async (req: Request, res: Response) => {
 
     // Retrieve the conversation log and save the user's prompt
     const conversationLog = await episode.getConversationLog()
-    const conversationHistory = conversationLog.slice(-10)
 
 
-    // const promptTemplate = new PromptTemplate({
-    //   template: templates.qaTemplate,
-    //   inputVariables: ["question", "conversationHistory", "topic"]
-    // });
+    const promptTemplate = new PromptTemplate({
+      template: templates.storyGeneration,
+      inputVariables: ["character", "topic", "age"]
+    });
 
 
 
-    // const chat = new ChatOpenAI({
-    //   verbose: true,
-    //   modelName: 'gpt-4',
-    //   temperature: 0.7
-    // });
+    const chat = new ChatOpenAI({
+      verbose: true,
+      modelName: 'gpt-4',
+      temperature: 0.9
+    });
 
-    // const chain = new LLMChain({
-    //   prompt: promptTemplate,
-    //   llm: chat,
-    // });
+    const chain = new LLMChain({
+      prompt: promptTemplate,
+      llm: chat,
+    });
 
 
-    // const data = await chain.call({
-    //   question: input,
-    //   conversationHistory,
-    //   topic: episode.topic
-    // });
+    const data = await chain.call({
+      character: favouriteCharacter,
+      topic: topic,
+      age: age
+
+    });
 
     // image caption chain for image generation from the response
-    // const imageCaptionTemplate = new PromptTemplate({
-    //   template: templates.imageCaptionTemplate,
-    //   inputVariables: ["response", "topic", "conversationHistory", "query"]
-    // });
+    const imageCaptionTemplate = new PromptTemplate({
+      template: templates.imagePrompt,
+      inputVariables: ["story"]
+    });
 
-    // const imageCaptionChain = new LLMChain({
-    //   prompt: imageCaptionTemplate,
-    //   llm: chat,
-    // });
+    const imageCaptionChain = new LLMChain({
+      prompt: imageCaptionTemplate,
+      llm: chat,
+    });
 
-    // const imageCaptionResult = await imageCaptionChain.call({
-    //   response: data.text,
-    //   query: input,
-    //   topic: topic!.description,
-    //   conversationHistory
-    // });
+    const imageCaptionResult = await imageCaptionChain.call({
+      story: data.text
+    });
 
-    // episode.turns.push({
-    //   prompt: input,
-    //   response: data.text,
-    //   timestamp: new Date(),
-    // });
+    // parse text image prompt from the response -> Image prompt: <prompt>\nText: <text>\n---\nImage prompt: <prompt>\nText: <text>\n---...
+    const imageCaptions: any[] = []
+    const text: string[] = []
+    imageCaptionResult.text.split("---").map((item: string) => {
+      let text_img_pair = item.split("\n\n")
+      // remove any empty strings
+      text_img_pair = text_img_pair.filter((item: string) => item !== "")
+      console.log(text_img_pair)
+      text.push(text_img_pair[1].split(":")[1].trim())
+      imageCaptions.push(text_img_pair[0].split(":")[1].trim())
+    })
 
-
-
-    // const response = {
-    //   "_id": episode.turns[episode.turns.length - 1]._id,
-    //   "text": data.text,
-    //   "image": "imageCaptionResult.text",
-    // }
-    res.status(StatusCodes.OK).send([
-      {
-        text: {
-          type: "Once upon a time, Elsa from Frozen found an apple. She observed it closely and wondered why it always fell down when she dropped it."
-        },
-        imageCaption: {
-          type: "Elsa holding an apple, looking curiously at it."
-        },
-      },
-      {
-        text: {
-          type: "\"Why doesn't it soar into the sky?\" She asked Olaf, her snowman friend. Olaf grinned, \"That's Gravity, Elsa!\" Elsa was curious, \"Gravity, what's that?\""
-        },
-        imageCaption: {
-          type: "Elsa talking to Olaf about the apple and gravity."
-        },
-      },
-      {
-        text: {
-          type: "Olaf began glowing with happiness as he got a chance to teach Elsa, \"Gravity is like a giant magnet beneath our feet. It pulls everything towards the Earth.\""
-        },
-        imageCaption: {
-          type: "Olaf explaining about gravity to Elsa with a huge magnet beneath their feet in the background."
-        },
-      },
-      {
-        text: {
-          type: "Elsa waved her magic, making the apple float! But before she could say \"Wow\", it fell back down again. \"Haha, Elsa, even magic can't beat gravity!\" Olaf giggled. Elsa giggled back and finally understood that gravity stops us from floating into space!"
-        },
-        imageCaption: {
-          type: "Elsa uses her magic to make the apple float, but it falls back down again."
-        },
+    // save the response in the episode
+    episode.story = text.map((item, index) => {
+      return {
+        text: item,
+        imageCaption: imageCaptions[index]
       }
-    ]
-    );
+    })
 
+    res.status(StatusCodes.OK).send(episode.story)
 
+    // save the episode
+    await episode.save()
 
-    //TODO analyze sentiment of the input
-
-    await episode.save();
 
   } catch (error) {
     //@ts-ignore
