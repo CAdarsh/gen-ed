@@ -4,10 +4,9 @@ import { UserDoc, Users } from "../User.js";
 import { Episodes } from "../../Episode/Episode.js";
 import { Topics } from "../../Topic.js";
 
-const create_episode = async function (this: UserDoc, subtopicId: string) {
-  const topic = await Topics.findById(subtopicId);
+const create_episode = async function (this: UserDoc, topic: string) {
   const episode = Episodes.build({
-    subTopicId: topic!._id,
+    topic,
     userId: this._id,
   });
 
