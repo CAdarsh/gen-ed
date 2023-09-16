@@ -1,0 +1,22 @@
+.container h1 {
+    padding: 2vh 0;
+    font-weight: 700;
+    font-size: 50px;
+    text-align: center;
+}
+
+.characterList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+}
+
+.characterItem {
+    height: 50vh;
+    /* border: 1px solid black; */
+}
+
+.characterItem img {
+    width: 100%;
+    height: 100%;
+}

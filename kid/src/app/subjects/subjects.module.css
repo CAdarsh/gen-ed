@@ -1,0 +1,47 @@
+.container h1 {
+    padding: 2vh 0;
+    font-weight: 700;
+    font-size: 50px;
+    text-align: center;
+}
+
+.subjectList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+}
+
+.subjectItem {
+    height: 50vh;
+    /* border: 1px solid black; */
+}
+
+.subjectItem img {
+    width: 100%;
+    height: 100%;
+}
+
+.topicItems {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 10%;
+    border: 1px solid black;
+}
+
+ul.topicList {
+    list-style: none;
+    padding-bottom: 10%;
+}
+
+ul.topicList li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+ul.topicList li:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
