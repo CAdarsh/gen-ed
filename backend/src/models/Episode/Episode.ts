@@ -4,19 +4,18 @@ import { Topics } from "../Topic.js";
 import get_conversation_log from "./methods/get_conversation_log.js";
 
 interface EpisodeAttrs {
-  subTopicId: string;
+  topic: string;
   userId: string;
 }
 
 
 
 interface EpisodeDoc extends mongoose.Document {
-  subTopicId: string;
+  topic: string;
   userId: string;
-  turns: { _id?: string, prompt: string, diffusionPrompt: string, response: string, timestamp: Date, }[];
-  evaluation: { _id?: string, prompt: string, diffusionPrompts1: string, diffusionPrompt2: string, response: string, answer: string }[];
+  turns: { _id?: string, prompt: string, response: string, timestamp: Date, }[];
+  story: { _id?: string, text: string, imageCaption: string, }[];
   episodeEnd?: Date;
-  evaluationEnd?: Date;
   getConversationLog(): Promise<string[]>;
 }
 interface EpisodeModel extends mongoose.Model<EpisodeDoc> {
@@ -25,25 +24,30 @@ interface EpisodeModel extends mongoose.Model<EpisodeDoc> {
 
 const episodesSchema = new mongoose.Schema({
 
-  subTopicId: {
-    type: mongoose.Types.ObjectId,
-    ref: "SubTopic",
-    required: true
+  topic: {
+    type: String
   },
   userId: {
     type: mongoose.Types.ObjectId,
     ref: "User",
     required: true
   },
+  story: [
+    {
+      text: {
+        type: String
+      },
+      imageCaption: {
+        type: String
+      },
+    }
+  ],
   turns: [
     {
       prompt: {
         type: String
       },
       response: {
-        type: String
-      },
-      diffusionPrompt: {
         type: String
       },
       timestamp: {
@@ -56,10 +60,6 @@ const episodesSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  evaluationEnd: {
-    type: Date,
-    default: Date.now()
-  }
 }, {
   toJSON: {
     transform(doc, ret) {
