@@ -16,11 +16,7 @@ export const currentUser = async (
 
   try {
 
-    if (!token) {
-      return next();
-    }
-
-    const user = await Users.findOne({ _id: token }) as UserDoc;
+    const user = await Users.findOne() as UserDoc;
     req.currentUser = user;
 
   } catch (error) {
