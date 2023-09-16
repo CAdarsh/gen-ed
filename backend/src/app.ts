@@ -2,7 +2,7 @@ import { logger } from "./services/logger.js";
 
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-
+import cors from "cors";
 import 'express-async-errors'; // to use throw in async functions
 // import helmet from 'helmet';
 import { NotFoundError } from "./errors/not-found-error.js";
@@ -15,6 +15,7 @@ import { evaluateRouter } from "./router/evaluations/index.ts";
 import { learnerRouter } from "./router/learner/index.ts";
 const app = express();
 
+app.use(cors());
 // app.use(helmet());
 app.use(express.json());
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms - :total-time[digits] ms'));
