@@ -22,7 +22,7 @@ export interface UserDoc extends mongoose.Document {
   currentEpisodeId?: string;
   favouriteCharacter?: string;
   currentEvaluationId?: string;
-  create_episode(familiarity: number, initialJudgement: string, stance: number): Promise<EpisodeDoc>;
+  create_episode(topic: string): Promise<EpisodeDoc>;
 }
 
 
@@ -46,9 +46,7 @@ const userSchema = new mongoose.Schema(
     //   unique: true
     // },
     currentTaskId: {
-      type: mongoose.Types.ObjectId,
-      ref: "Topic",
-      required: true
+      type: String
     },
     currentEpisodeId: {
       type: mongoose.Types.ObjectId,

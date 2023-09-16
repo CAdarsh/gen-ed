@@ -34,25 +34,25 @@ const handler = async (req: Request, res: Response) => {
     const conversationHistory = conversationLog.slice(-10)
 
 
-    const promptTemplate = new PromptTemplate({
-      template: templates.qaTemplate,
-      inputVariables: ["question", "conversationHistory", "topic"]
-    });
+    // const promptTemplate = new PromptTemplate({
+    //   template: templates.qaTemplate,
+    //   inputVariables: ["question", "conversationHistory", "topic"]
+    // });
 
 
 
-    const chat = new ChatOpenAI({
-      verbose: true,
-      modelName: 'gpt-4',
-      temperature: 0.7
-    });
+    // const chat = new ChatOpenAI({
+    //   verbose: true,
+    //   modelName: 'gpt-4',
+    //   temperature: 0.7
+    // });
 
-    const chain = new LLMChain({
-      prompt: promptTemplate,
-      llm: chat,
-    });
+    // const chain = new LLMChain({
+    //   prompt: promptTemplate,
+    //   llm: chat,
+    // });
 
-    // TODO
+    // // TODO
 
     return res.status(StatusCodes.OK).send(
       {
