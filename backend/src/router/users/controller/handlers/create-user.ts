@@ -8,16 +8,16 @@ import { Users } from '../../../../models/User/User.js';
 const handler = async (req: Request, res: Response) => {
 
 
-  const { favouriteCharacter, taskId } = req.body
+  const { favouriteCharacter, task } = req.body
 
-  if (!favouriteCharacter || !taskId) {
+  if (!favouriteCharacter || !task) {
     throw new BadRequestError("email or name not found")
   }
 
 
   const user = await Users.build({
     favouriteCharacter,
-    currentTaskId: taskId
+    currentTaskId: task
   })
 
   await user.save()

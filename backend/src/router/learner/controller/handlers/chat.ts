@@ -44,30 +44,30 @@ const handler = async (req: Request, res: Response) => {
     const conversationHistory = conversationLog.slice(-10)
 
 
-    const promptTemplate = new PromptTemplate({
-      template: templates.qaTemplate,
-      inputVariables: ["question", "conversationHistory", "topic"]
-    });
+    // const promptTemplate = new PromptTemplate({
+    //   template: templates.qaTemplate,
+    //   inputVariables: ["question", "conversationHistory", "topic"]
+    // });
 
 
 
-    const chat = new ChatOpenAI({
-      verbose: true,
-      modelName: 'gpt-4',
-      temperature: 0.7
-    });
+    // const chat = new ChatOpenAI({
+    //   verbose: true,
+    //   modelName: 'gpt-4',
+    //   temperature: 0.7
+    // });
 
-    const chain = new LLMChain({
-      prompt: promptTemplate,
-      llm: chat,
-    });
+    // const chain = new LLMChain({
+    //   prompt: promptTemplate,
+    //   llm: chat,
+    // });
 
 
-    const data = await chain.call({
-      question: input,
-      conversationHistory,
-      topic: episode.topic
-    });
+    // const data = await chain.call({
+    //   question: input,
+    //   conversationHistory,
+    //   topic: episode.topic
+    // });
 
     // image caption chain for image generation from the response
     // const imageCaptionTemplate = new PromptTemplate({
@@ -87,30 +87,32 @@ const handler = async (req: Request, res: Response) => {
     //   conversationHistory
     // });
 
-    episode.turns.push({
-      prompt: input,
-      response: data.text,
-      timestamp: new Date(),
+    // episode.turns.push({
+    //   prompt: input,
+    //   response: data.text,
+    //   timestamp: new Date(),
+    // });
+
+
+
+    // const response = {
+    //   "_id": episode.turns[episode.turns.length - 1]._id,
+    //   "text": data.text,
+    //   "image": "imageCaptionResult.text",
+    // }
+    res.status(StatusCodes.OK).send({
+      text: "Hi there! I’m {character}, and I’m going to tell you a story about {topic}. Do you know what {topic} is? It’s a way of explaining how things change over time. For example, how ice melts into water, or how perfume spreads in a room. Let me show you how it works with a fun adventure!"
     });
-
-
-
-    const response = {
-      "_id": episode.turns[episode.turns.length - 1]._id,
-      "text": data.text,
-      "image": "imageCaptionResult.text",
-    }
-    res.status(StatusCodes.OK).send(response);
 
 
 
     //TODO analyze sentiment of the input
 
-    await episode.save();
+    // await episode.save();
 
-    res.status(StatusCodes.OK).send({
-      response: "This is a response",
-    })
+    // res.status(StatusCodes.OK).send({
+    //   response: "This is a response",
+    // })
 
   } catch (error) {
     //@ts-ignore
