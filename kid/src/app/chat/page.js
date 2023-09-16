@@ -77,14 +77,13 @@ export default function Chat() {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(scrollToBottom, [messages]);
-//   remove this function. Just demonstrating the animation is closed
-  useEffect(() => {
+
+
+  //   remove the below useeffect function. Just demonstrating the animation is closed  
+useEffect(() => {
     let i = 0;
-  
     function pollDOM() {
-        // if(isLoading){
-            // setMessages([...messages, { message: "Test", sender: "Agent" }]);
-        // }
+
         setLoading(false);
         console.log("Called")
     }
@@ -97,7 +96,6 @@ export default function Chat() {
     <div
         className={styles.parent}>
    
-    {/* <div className={styles.blurredBG}>a</div> */}
     <div
         className={styles.mainCont}>
     <div className={styles.subCont}>
