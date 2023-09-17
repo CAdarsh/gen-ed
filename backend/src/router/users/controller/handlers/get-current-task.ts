@@ -10,9 +10,7 @@ import { Topics } from '../../../../models/Topic.js';
 const handler = async (req: Request, res: Response) => {
   const user = req.currentUser;
 
-  const task = await Topics.findById(user!.currentTaskId).select("name description");
-
-  res.status(StatusCodes.OK).send(task);
+  res.status(StatusCodes.OK).send(user?.topic);
 };
 
 export {

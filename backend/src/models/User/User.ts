@@ -9,14 +9,15 @@ interface UserAttrs {
   // name: string;
   // email: string;
   favouriteCharacter: string;
-  currentTaskId: string;
+  topic: string;
 }
 
 export interface UserDoc extends mongoose.Document {
   _id: string;
   // name: string;
   // email: string;
-  currentTaskId: string;
+  topic: string;
+  age: number;
   episodeHistory: string[];
   scorePerEpisode: number[];
   currentEpisodeId?: string;
@@ -45,8 +46,11 @@ const userSchema = new mongoose.Schema(
     //   maxlength: 255,
     //   unique: true
     // },
-    currentTaskId: {
+    topic: {
       type: String
+    },
+    age: {
+      type: Number,
     },
     currentEpisodeId: {
       type: mongoose.Types.ObjectId,

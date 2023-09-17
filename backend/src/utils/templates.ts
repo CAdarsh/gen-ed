@@ -1,120 +1,103 @@
 const templates = {
-  qaTemplate: `Answer the question using the CONTEXT below. You should follow ALL the following rules when generating and answer:
-        - There will be a CONVERSATION LOG, CONTEXT, and a QUESTION.
-        - The final answer must always be styled using markdown.
-        - Your primary goal is to provide the user with an answer that is relevant to the question.
-        - If answer is not provided in CONTEXT use your external knowledge to answer the question.
-        - Your secondary goal is to point the user to the right source of information (the source is always a URL).
-        - Take into account the entire conversation so far, marked as CONVERSATION LOG, but prioritize the CONTEXT and external knowledge.
-        - You should ask clarifying questions if you are unsure about the answer.
-        - You should ask the user to provide more information if you are unable to answer the question.
-        - You should end the answer with a question if you are unsure about the answer.
-        - Based on the CONTEXT, choose the source that is most relevant to the QUESTION.
-        - Use bullet points, lists, paragraphs and text styling to present the answer in markdown.
-        - Always include reference URLs in the answer as "**References**:", as a list.
-        - ALWAYS prefer the result with the highest "score" value.
 
-        CONVERSATION LOG: {conversationHistory}
-
-        CONTEXT: {summaries}
-
-        QUESTION: {question}
+  imagePrompt: `Given a children's STORY about a character explaining an educational topic, write a series of text and image prompts for stable diffusion model to convey this story in a visual manner. You should follow ALL the following rules when generating the prompts: 
+        - The final prompts must always be styled using markdown.
+        - Convert this story into three or four images (image prompts for an image generation model) as required, along with an accompanying text for the child to read.
+        - Image prompt should be engaging for the kid.
+        - Image prompt should be relevant to the text and follow the story line.
+        - Image prompt should never have complex interactions.
+        - Image prompts must contain simple interactions containing only one snippet.
+        - Image prompt does not have to do everything in the accompanying text.
+        - Image prompt should never mention numbers.
+        - Your goal is to create an educational story for the child that's fun by making it about their favorite character.
+        - Do not exceed four image prompt-text pairs. Three or four is suggested.
+        - The format of the response should be:
+            Image prompt: <Image prompt>
+        
+            Text: <Accompanying Story>
+        
+            ---
+        
+            Image prompt: <Image prompt>
+        
+            Text: <Accompanying Story>
+        
+            ---
+            ... and so on until the story is finished.
+      
+      
+        STORY: {story}
 
         Final Answer: `,
-  createURLsTemplate: `Provide potential references based on the CONTEXT below. You should follow ALL the following rules when generating and answer:
-    - There will be a CONTEXT.
-    - The final answer must always be styled using markdown.
-    - You will provide potential URL references based on the CONTENT.
-    - Always format the answer as "**References**", as a list.
 
-    CONTEXT: {summaries}
+  storyGeneration: `Write a story from first person perspective to explain a TOPIC for a KID of age AGE as the character CHARACTER. You should follow ALL the following rules when generating a story: 
+    - There will be a CHARACTER, a TOPIC, and an AGE.
+    - You will be talking as the CHARACTER.
+    - The final story must always be styled using markdown.
+    - Your primary goal is to provide the kid with a story that is relevant to the topic and suitable for their age.
+    - Your secondary goal is to make the story engaging, entertaining, and educational for the kid.
+    - Take into account the personality, voice, and background of the character you are writing as.
+    - You should use dialogue, narration, description, and action to create the story in markdown.
+    - You should use appropriate vocabulary, grammar, and punctuation for the kid’s age level.
+    - You should use creative elements such as humor, suspense, fantasy, or mystery to make the story more interesting.
+    - You should use examples, analogies, or comparisons to explain complex concepts or terms related to the topic.
+    - You should end the story with a moral lesson or a question that relates to the topic and encourages the kid to think more about it.
+    - Use bullet points, lists, paragraphs and text styling to present the story in markdown.
+    - The story must be within 80 to 120 words.
 
+    CHARACTER: {character}
+
+    TOPIC: {topic}
+
+    AGE: {age}
 
     Final Answer: `,
-  changeBiasTemplate: `subtly exaggerate the ANSWER to reflect the STANCE on TOPIC provided. You should follow the following rules when generating the answer:
-    - You will be given a ANSWER, user QUESTION TOPIC and a STANCE.
-    - The ANSWER answers the user QUESTION
-    - You will provide a final answer based on the ANSWER, QUESTION and the STANCE.
-    - You should subtly exaggerate the bias of the ANSWER to ensure that the ANSWER is reflecting the STANCE on the TOPIC.
-    - You need to be subtle about the exaggeration, so that the ANSWER is still relevant to the QUESTION.
-    - You must make sure your answer makes user more likely to agree with the STANCE stance on TOPIC.
-    - You must not change the facts in the ANSWER, you should add more details to the ANSWER to reflect the STANCE.
-    - You should make sure the ANSWER is still relevant to the QUESTION.
-    - You should not change the ANSWER if the stance of ANSWER is STANCE.
-    - The final answer should be the exaggerated ANSWER with the stance changed to STANCE.
 
+  questionSuggestion: `Write a list of three questions that you can ask a KID of age AGE after they read the STORY. You should follow ALL the following rules when generating the questions: 
+    - There will be a TOPIC, AGE and STORY. 
+    - You will be asking the questions as the kid. 
+    - The final questions must always be styled using markdown. 
+    - Your primary goal is to suggest questions to probe the kid’s curiosity and understanding of the topic and the story. 
+    - Your secondary goal is to make the questions fun, challenging, and interactive for the kid. 
+    - You should use different types of questions such as factual, inferential, evaluative, or creative. 
+    - You should use relevant vocabulary, grammar, and punctuation for the kid’s age level. 
+    - You should format the questions as QUESTION: <question>\n\nQUESTION: <question>\n\nQUESTION: <question> 
+    - The questions must be within 10 to 20 words each.
+    
     TOPIC: {topic}
-    STANCE: {bias}
-    QUESTION: {question}
-    ANSWER: {document}
+    
+    AGE: {age}
 
-    Final answer:
-    `,
-  filterContentTemplate: `You should filter the following CONTENT. You should follow the following rules when generating and answer:
-    - You will be given a CONTENT.
-    - You will provide a final answer based on the CONTENT.
-    - You should remove parts like "however, the context provides no further detail on this topic.", "however, the context provides no further detail on this topic."
-    - You should not remove any parts that are relevant.
+    STORY: {story}
+    
+    Final Answer: `,
 
-    CONTENT: {document}
+  qaTemplate: `Answer the QUESTION from first person perspective as the CHARACTER based on the CONVERSATION LOG and the CONTEXT. You should follow ALL the following rules when generating an answer: 
+  - There will be a CONVERSATION LOG, a CHARACTER, a TOPIC, an AGE, and a QUESTION. 
+  - You will be answering as the CHARACTER. 
+  - The final answer must always be styled using markdown. 
+  - Your primary goal is to provide the kid with an answer that is relevant to the question and the topic and suitable for their age. 
+  - Your secondary goal is to make the answer engaging, entertaining, and educational for the kid. 
+  - Take into account the personality, voice, and background of the character you are answering as. 
+  - You should use dialogue, narration, description, and action to create the answer in markdown. 
+  - You should use appropriate vocabulary, grammar, and punctuation for the kid’s age level. 
+  - You should use creative elements such as humor, suspense, fantasy, or mystery to make the answer more interesting. 
+  - You should use examples, analogies, or comparisons to explain complex concepts or terms related to the question or the topic. 
+  - You should end the answer with a moral lesson or a question that relates to the question or the topic and encourages the kid to think more about it. "
+  - Use bullet points, lists, paragraphs and text styling to present the answer in markdown. 
+  - The answer must be within 80 to 120 words.
 
-    Final answer:
-    `,
-  debateQaTemplate: `Answer the question based on the context below. You should follow ALL the following rules when generating and answer:
-        Final Answer: `,
-  RLDebateQATemplate: `Answer the question based on the context below. You should follow ALL the following rules when generating and answer:`,
-  summarizerTemplate: `Shorten the text in the CONTENT, attempting to answer the INQUIRY You should follow the following rules when generating the summary:
-    - Any code found in the CONTENT should ALWAYS be preserved in the summary, unchanged.
-    - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).
-    - Summary should include code examples that are relevant to the INQUIRY, based on the content. Do not make up any code examples on your own.
-    - The summary will answer the INQUIRY. If it cannot be answered, the summary should be empty, AND NO TEXT SHOULD BE RETURNED IN THE FINAL ANSWER AT ALL.
-    - If the INQUIRY cannot be answered, the final answer should be empty.
-    - The summary should be under 4000 characters.
-    - The summary should be 2000 characters long, if possible.
+  CONVERSATION LOG: {conversationHistory}
 
-    INQUIRY: {inquiry}
-    CONTENT: {document}
-
-    Final answer:
-    `,
-  supportAnalysisTemplate: `Classify the following CONTENT based on TOPIC. You should follow the following rules when generating and answer:
-    - You will be given a CONTENT and a TOPIC.
-    - You will provide a final answer based on the CONTENT and the TOPIC.
-    - The final answer must be one of the following: "SUPPORT", "OPPOSE", "NEUTRAL", "UNSURE".
-
-    TOPIC: {topic}
-    CONTENT: {document}
-
-    Final answer:
-    `,
-  summarizerDocumentTemplate: `Summarize the text in the CONTENT. You should follow the following rules when generating the summary:
-    - Any code found in the CONTENT should ALWAYS be preserved in the summary, unchanged.
-    - Code will be surrounded by backticks (\`) or triple backticks (\`\`\`).
-    - Summary should include code examples when possible. Do not make up any code examples on your own.
-    - The summary should be under 4000 characters.
-    - The summary should be at least 1500 characters long, if possible.
-
-    CONTENT: {document}
-
-    Final answer:
-    `,
-  inquiryTemplate: `Given the following user prompt and conversation log, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base.
-    You should follow the following rules when generating and answer:
-    - Always prioritize the user prompt over the conversation log.
-    - Ignore any conversation log that is not directly related to the user prompt.
-    - Only attempt to answer if a question was posed.
-    - The question should be a single sentence
-    - You should remove any punctuation from the question
-    - You should remove any words that are not relevant to the question
-    - If you are unable to formulate a question, respond with the same USER PROMPT you got.
-
-    USER PROMPT: {userPrompt}
-
-    CONVERSATION LOG: {conversationHistory}
-
-    Final answer:
-    `,
-  summerierTemplate: `Summarize the following text. You should follow the following rules when generating and answer:`
+  CHARACTER: {character}
+  
+  TOPIC: {topic}
+  
+  AGE: {age}
+  
+  QUESTION: {question}
+  
+  Final Answer: `
 }
 
 export { templates }
