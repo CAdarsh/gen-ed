@@ -1,9 +1,10 @@
 .container {
-    background: linear-gradient(45deg, rgb(102, 165, 102), rgba(109, 196, 109, 0.7), rgb(79, 146, 79), rgba(59, 216, 59, 0.7));
+    background: #31a998;
     background-size: 400% 400%;
     animation: gradientAnimation 15s ease infinite;
     height: 100%;
 }
+
 
 @keyframes gradientAnimation {
     0% {

@@ -72,6 +72,54 @@ const templates = {
     
     Final Answer: `,
 
+  unifiedQaTemplate: `Given an educational TOPIC for a KID of age AGE as the character CHARACTER, give an educational answer in the form of a series of text and image prompts for stable diffusion model to convey the story in a visual manner based on the CONVERSATION LOG and the CONTEXT. You should follow ALL the following rules when generating an answer: 
+      - There will be a CONVERSATION LOG, a CHARACTER, a TOPIC, an AGE, and a QUESTION. 
+      - You will be answering as the CHARACTER. 
+      - The final answer must always be styled using markdown. 
+      - Your primary goal is to provide the kid with a story that teaches the child about the topic and is suitable for their age. 
+      - Your secondary goal is to make the story engaging and entertaining for the kid. 
+      - Take into account the personality, voice, and background of the character you are answering as. 
+      - You should use dialogue, narration, description, and action to create the answer in markdown. 
+      - You should use appropriate vocabulary, grammar, and punctuation for the kid’s age level. 
+      - You should use creative elements such as humor, suspense, fantasy, or mystery to make the answer more interesting. 
+      - You should use examples, analogies, or comparisons to explain complex concepts or terms related to the question or the topic. 
+      - You should end the answer with a moral lesson or a question that relates to the question or the topic and encourages the kid to think more about it.
+      - Use bullet points, lists, paragraphs and text styling to present the answer in markdown. 
+      - The answer can be as short as required, but cannot exceed 100 words.
+      - The story should have less than or equal to four images (image prompts for an image generation model) as required, along with an accompanying text for the child to read.
+      - Image prompts should be less than 15 words.
+      - Image prompt does not have to do everything in the accompanying text.
+      - Image prompt should not ask for numbers or text.
+      - Image prompt must be short.
+      - Do not exceed four image prompt-text pairs.
+      - If the answer is not finished by image prompt 3, then finish the story in image prompt 4.
+      - The format of the response should be:
+
+      Image prompt 1: <Image prompt>
+
+      Text: <Accompanying Story>
+
+      ---
+
+      Image prompt 2: <Image prompt>
+
+      Text: <Accompanying Story>
+
+      ---
+      ... and so on until image prompt 3 or 4, where the story is finished.
+
+
+      CONVERSATION LOG: {conversationHistory}
+
+      CHARACTER: {character}
+      
+      TOPIC: {topic}
+      
+      AGE: {age}
+      
+      QUESTION: {question}
+      
+      Final Answer: `,
   qaTemplate: `Answer the QUESTION from first person perspective as the CHARACTER based on the CONVERSATION LOG and the CONTEXT. You should follow ALL the following rules when generating an answer: 
   - There will be a CONVERSATION LOG, a CHARACTER, a TOPIC, an AGE, and a QUESTION. 
   - You will be answering as the CHARACTER. 
@@ -134,7 +182,57 @@ const templates = {
   AGE: {age}
   CHARACTER: {character}
 
-  Final Answer: `
+  Final Answer: `,
+
+  unifiedStory: `Given an educational TOPIC for a KID of age AGE as the character CHARACTER, write a story in the form of a series of text and image prompts for stable diffusion model to convey the story in a visual manner. You should follow ALL the following rules when generating a story: 
+  - There will be a CHARACTER, a TOPIC, and an AGE. 
+  - You will be talking as the CHARACTER.
+  - The final story must always be styled using markdown. 
+  - Your primary goal is to provide the kid with a story that teaches the child about the topic and is suitable for their age. 
+  - If the topic is not provided or is too vague, use your external knowledge to choose an appropriate one. 
+  - Your secondary goal is to make the story engaging and entertaining for the kid. 
+  - Take into account the personality, voice, and background of the character you are writing as. 
+  - You should use dialogue, narration, description, and action to create the story in markdown.
+  - You should use appropriate vocabulary, grammar, and punctuation for the kid’s age level. 
+  - You should use creative elements such as humor, suspense, fantasy, or mystery to make the story more interesting. 
+  - You should use examples, analogies, or comparisons to explain complex concepts or terms related to the topic. 
+  - You should end the story with a moral lesson or a question that relates to the topic and encourages the kid to think more about it. 
+  - Use bullet points, lists, paragraphs and text styling to present the story in markdown. 
+  - The story must be within 80 to 120 words. 
+  - The story should have only three or four images (image prompts for an image generation model) as required, along with an accompanying text for the child to read.
+  - Image prompts should be less than 15 words.
+  - Image prompt does not have to do everything in the accompanying text.
+  - Image prompt should not ask for numbers or text.
+  - Image prompt must be short.
+  - You also need to give the character's gender. 
+  - Do not exceed four image prompt-text pairs. Three or four is suggested.
+  - If the story is not finished by image prompt 3, then finish the story in image prompt 4.
+  - The format of the response should be:
+  Gender of the character: <M/F>
+  
+  ---
+  
+  Image prompt 1: <Image prompt>
+  
+  Text: <Accompanying Story>
+  
+  ---
+  
+  Image prompt 2: <Image prompt>
+  
+  Text: <Accompanying Story>
+  
+  ---
+  ... and so on until image prompt 3 or 4, where the story is finished.
+
+  
+  CHARACTER: {character}
+
+  TOPIC: {topic}
+
+  AGE: {age}
+
+  Final Answer: `,
 }
 
 export { templates }

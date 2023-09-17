@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/text-to-speech": "^5.0.1",
     "@pinecone-database/pinecone": "^0.1.6",
     "axios": "^1.4.0",
     "bottleneck": "^2.19.5",

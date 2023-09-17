@@ -113,6 +113,19 @@ const sampleResponse = [
 ]
 
 
+useEffect(() => {
+  var raw = "";
+        var requestOptions = {
+          method: 'POST',
+          body: raw,
+          redirect: 'follow'
+        };
+        fetch("http://localhost:5000/api/v1/learner/question-suggestion", requestOptions)
+          .then(response => response.text())
+          .then(result => { console.log({result}); setSuggestedFollowUps(result); })
+          .catch(error => console.log('error', error));
+}, [])
+
 
   //   remove the below useeffect function. Just demonstrating the animation is closed
 
