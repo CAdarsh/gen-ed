@@ -29,6 +29,18 @@
     padding: 5%;
 }
 
+.singleOption {
+    display: flex;
+    flex-direction: column;
+}
+
+.singleOption h4 {
+    text-align: center;
+    padding-top: 6%;
+    font-weight: 500;
+    font-size: 20px;
+}
+
 .options img {
     transition: transform 0.3s;
     object-fit: cover;

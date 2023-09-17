@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 
 import styles from './evaluate.module.css'
@@ -21,7 +21,7 @@ const dm_sans = DM_Sans({
 
 export default function EvaluatePage() {
 
-  const [selectedEvaluation, setSelectedEvaluation] = useState(0);
+  const [evaluationNumber, setEvaluationNumber] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   let router = useRouter()
@@ -30,22 +30,16 @@ export default function EvaluatePage() {
     router.push('/subjects')
   }
 
-  const evaluations = [
-    {
-      'question': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget interdum dui, vitae laoreet eros. Cras hendrerit ut quam id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.',
-      'image1': '/subjects/maths.jpeg',
-      'image2': '/subjects/history.jpeg',
-      'answer': 1,
-      'textAnswer': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget interdum dui, vitae laoreet eros. Cras hendrerit ut quam id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.'
-    },
-    {
-      'question': 'Lorem dolor sit amet, consectetur adipiscing elit. Vivamus eget interdum dui, vitae laoreet eros. Cras hendrerit ut quam id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.',
-      'image1': '/subjects/science.jpeg',
-      'image2': '/subjects/geography.jpeg',
-      'answer': 2,
-      'textAnswer': 'Lorem dolor sit amet, consectetur adipiscing elit. Vivamus eget interdum dui, vitae laoreet eros. Cras hendrerit ut quam id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.'
-    }
-  ]
+  const evaluation = {
+    'question': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget interdum dui, vitae laoreet eros. Cras hendrerit ut quam id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.',
+    'image1': '/subjects/maths.jpeg',
+    'image2': '/subjects/history.jpeg',
+    'option1': 'Option 1',
+    'option2': 'Option 2',
+    'answer': 1,
+    'correctAnswerExplanation': 'Right dui, volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.',
+    'wrongAnswerExplanation': 'Wrong id volutpat. Maecenas in velit ut ex consectetur dictum viverra nec nisl.'
+  }
 
   const handleImageClick = (ans, evaluation) => {
     if (!selectedAnswer) {
@@ -54,7 +48,7 @@ export default function EvaluatePage() {
   }
 
   const handleIconClick = () => {
-    selectedEvaluation + 1 >= evaluations.length ? redirect() : setSelectedEvaluation(selectedEvaluation + 1)
+    evaluationNumber > 2 ? redirect() : setEvaluationNumber(evaluationNumber + 1)
     setSelectedAnswer(null)
   }
 
@@ -67,36 +61,47 @@ export default function EvaluatePage() {
         <div className={styles.evaluation}>
 
           <div key='question' className={styles.question}>
-            {evaluations[selectedEvaluation].question}
+            {evaluation.question}
           </div>
 
           <div
             key='options'
             className={styles.options}>
 
-            <Image
-              src={evaluations[selectedEvaluation].image1}
-              className={selectedAnswer === 1 ? styles.active : ''}
-              alt='image1'
-              width={400}
-              height={250}
-              onClick={() => handleImageClick(1, evaluations[selectedEvaluation])}
-            />
+            <div className={styles.singleOption}>
+              <Image
+                src={evaluation.image1}
+                className={selectedAnswer === 1 ? styles.active : ''}
+                alt='image1'
+                width={400}
+                height={250}
+                onClick={() => handleImageClick(1, evaluation)}
+              />
+              <h4>{evaluation.option1}</h4>
+            </div>
 
-            <Image
-              src={evaluations[selectedEvaluation].image2}
-              className={selectedAnswer === 2 ? styles.active : ''}
-              alt='image2'
-              width={400}
-              height={250}
-              onClick={() => handleImageClick(2, evaluations[selectedEvaluation])}
-            />
+            <div className={styles.singleOption}>
+              <Image
+                src={evaluation.image2}
+                className={selectedAnswer === 2 ? styles.active : ''}
+                alt='image2'
+                width={400}
+                height={250}
+                onClick={() => handleImageClick(2, evaluation)}
+              />
+              <h4>{evaluation.option2}</h4>
+            </div>
 
           </div>
 
-          {selectedAnswer &&
+          {selectedAnswer && selectedAnswer == evaluation.answer &&
             <div key='answer' className={styles.answer}>
-              {evaluations[selectedEvaluation].textAnswer}
+              {evaluation.correctAnswerExplanation}
+            </div>
+          }
+          {selectedAnswer && selectedAnswer != evaluation.answer &&
+            <div key='answer' className={styles.answer}>
+              {evaluation.wrongAnswerExplanation}
             </div>
           }
           {selectedAnswer &&
