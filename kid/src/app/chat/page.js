@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 import { DM_Sans } from 'next/font/google';
+import ReactAudioPlayer from 'react-audio-player';
 
 // If loading a variable font, you don't need to specify the font weight
 const dm_sans = DM_Sans({
@@ -23,13 +24,12 @@ export default function Chat() {
 
   const [storyResponse, setStoryResponse] = useState();
   const [suggestedFollowUps, setSuggestedFollowUps] = useState([
-    'What if plant runs out of CO2?',
-    'Is Manchester United real?',
+    // 'What if plant runs out of CO2?',
+    // 'Is Manchester United real?',
     'Concept Learned 👍',
   ]);
   const [messages, setMessages] = useState([]);
   const [audioState, setAudioState] = useState([]);
-
 
   const loadImages = async (storyResponses) => {
     console.log({ storyResponses });
@@ -67,27 +67,27 @@ export default function Chat() {
   };
 
   const getAudio = async (text) => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
-    var raw = JSON.stringify({
-      text: text,
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
-    const audio = await fetch(
+    const response = await fetch(
       'http://localhost:5000/api/v1/learner/speech',
-      requestOptions
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: text,
+        }),
+      }
     );
 
-    return audio;
+    const audioBuffer = await response.arrayBuffer();
+    const blob = new Blob([audioBuffer], { type: 'audio/mpeg' });
+    const url = URL.createObjectURL(blob);
+
+    console.log(url);
+    return url;
   };
+
   useEffect(async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -102,7 +102,6 @@ export default function Chat() {
       favouriteCharacter: character,
       topic: topic,
     });
-
 
     var requestOptions = {
       method: 'POST',
@@ -121,20 +120,22 @@ export default function Chat() {
       })
       .then(async (res) => {
         await loadImages(res);
-        let proms = res.map((obj) => {
-          getAudio(obj["text"])
+
+        // combine all text
+        let allText = '';
+        res.forEach((obj) => {
+          allText += obj['text'];
         });
+        console.log(allText);
+        const audioUrl = await getAudio(allText);
+        setAudioState(audioUrl);
 
-        Promise.all(proms, (values) => {
-          setAudioState(values);
-        })
-
-        setMainLoad(false)
+        console.log(audioUrl);
+        setMainLoad(false);
       })
       .catch((error) => console.log('error', error));
   }, []);
 
-  
   const sampleResponse = [
     {
       text: {
@@ -234,14 +235,16 @@ export default function Chat() {
 
   return (
     <div className={dm_sans.className}>
-      <div className={ mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}>
-          Your evaluation is being prepared for you! 
-              <Player
-                  autoplay
-                  loop
-                  src="https://lottie.host/fe7b668d-fb68-4556-be13-f73ec46b82ec/MT9bTkinxH.json"
-                  style={{ height: '100vh', width: '100vw' }}
-                ></Player>
+      <div
+        className={mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}
+      >
+        Your lesson is being prepared for you!
+        <Player
+          autoplay
+          loop
+          src="https://lottie.host/fe7b668d-fb68-4556-be13-f73ec46b82ec/MT9bTkinxH.json"
+          style={{ height: '100vh', width: '100vw' }}
+        ></Player>
       </div>
       <div className={styles.parent}>
         <div className={styles.mainCont}>
@@ -265,14 +268,7 @@ export default function Chat() {
                         {message.message.map((data) => {
                           return (
                             <>
-                              <div>
-                                <audio controls>
-                                  <source
-                                    src={audioState[0]}
-                                    type="audio/mpeg"
-                                  />
-                                </audio>
-                              </div>
+                              <ReactAudioPlayer src={audioState} controls />
 
                               <Image
                                 src={data.imageSrc}

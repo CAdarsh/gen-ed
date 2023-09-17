@@ -146,7 +146,7 @@ export default function EvaluatePage() {
   return (
     <div className={dm_sans.className}>
       <div className={ mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}>
-          Your lesson is being prepared for you! 
+          Your evaluation is being prepared for you! 
               <Player
                   autoplay
                   loop
