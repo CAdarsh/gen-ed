@@ -43,6 +43,7 @@ useEffect(async () => {
   // // Make a POST request using the fetch API
   let messageData = await fetch('http://localhost:5000/api/v1/learner/story', {
     method: 'POST',
+    mode: "no-cors", // no-cors, *cors, same-origin
     headers: {
       'Content-Type': 'application/json', // Specify the content type as JSON
     },
@@ -58,8 +59,12 @@ useEffect(async () => {
     .then((responseData) => {
       return responseData;
     })
-    console.log(messageData)
-    console.log("messageData")
+    .catch((err)=>{
+      console.log("Error is:")
+      console.error(err);
+    })
+    // console.log(messageData)
+    // console.log("messageData")
     //   console.log(responseData)
     //   // setData(responseData); // Set the data in your component's state
     //   setLoading(false); // Set loading to false once data is fetched
@@ -203,22 +208,22 @@ const sampleResponse = [
   }
 
   const scrollToBottom = () => {
-    console.log("Called");
+    // console.log("Called");
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(scrollToBottom, [messages]);
 
 
   //   remove the below useeffect function. Just demonstrating the animation is closed  
-useEffect(() => {
-    let i = 0;
-    function pollDOM() {
-        setLoading(false);
-        console.log("Called")
-    }
-    const interval = setInterval(pollDOM, 6000);
-    return () => clearInterval(interval);
-  }, [])
+// useEffect(() => {
+//     let i = 0;
+//     function pollDOM() {
+//         setLoading(false);
+//         console.log("Called")
+//     }
+//     const interval = setInterval(pollDOM, 6000);
+//     return () => clearInterval(interval);
+//   }, [])
 
   return (
     <div className={dm_sans.className}>
