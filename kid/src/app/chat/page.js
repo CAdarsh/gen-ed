@@ -23,24 +23,15 @@ export default function Chat() {
     "Is Manchester United real?",
     "Concept Learned 👍",
   ])
-  const [messages, setMessages] = useState([{
-    message: "Okay, little buddy, imagine plants are like magical food-making factories. They need three things to make their food: sunlight, water, and something called air that has a special gas called carbon dioxide in it. Sunlight: Plants use sunlight, which is like the sun's bright and warm hugs, to start making their food.    Water: They also drink water through their roots from the ground, just like you drink water from a glass. Water helps plants stay strong and healthy. Air: Plants take a special gas called carbon dioxide from the air. It's like a secret ingredient for their food. Now, here's the magical part! Inside the plant, there are tiny little things called chlorophyll that love sunlight. They catch the sunlight and use it to mix the water and carbon dioxide together to make food. This special food is called glucose, and it's what helps the plant grow big and strong! And guess what? When plants make this food, they also give us a gift! They release something called oxygen into the air, and we breathe it to stay alive. So, plants are like the Earth's helpers. They make food for themselves and give us fresh air to breathe! So, remember, plants are like food-making factories using sunlight, water, and air to make food, and they give us oxygen as a gift. That's how photosynthesis works, like magic in nature!",
-    sender: "User"
-},  {
-    message: "Thanks I got it!",
-    sender: "User"
-},
-{
-    message: "Okay, little buddy, imagine plants are like magical food-making factories. They need three things to make their food: sunlight, water, and something called air that has a special gas called carbon dioxide in it. Sunlight: Plants use sunlight, which is like the sun's bright and warm hugs, to start making their food.    Water: They also drink water through their roots from the ground, just like you drink water from a glass. Water helps plants stay strong and healthy. Air: Plants take a special gas called carbon dioxide from the air. It's like a secret ingredient for their food. Now, here's the magical part! Inside the plant, there are tiny little things called chlorophyll that love sunlight. They catch the sunlight and use it to mix the water and carbon dioxide together to make food. This special food is called glucose, and it's what helps the plant grow big and strong! And guess what? When plants make this food, they also give us a gift! They release something called oxygen into the air, and we breathe it to stay alive. So, plants are like the Earth's helpers. They make food for themselves and give us fresh air to breathe! So, remember, plants are like food-making factories using sunlight, water, and air to make food, and they give us oxygen as a gift. That's how photosynthesis works, like magic in nature!",
-    sender: "User"
-},  {
-    message: "Thanks I got it!",
-    sender: "User"
-}]);
+  const [messages, setMessages] = useState([]);
 
+// {
+//   message: "Thanks I got it!",
+//   sender: "User"
+// }
 
 // chat initialisation request 
-useEffect(() => {
+useEffect(async () => {
   // Your code here
   const subject = localStorage.getItem('subject');
   const character = localStorage.getItem('character');
@@ -61,45 +52,47 @@ useEffect(() => {
       console.log("Called-Lol")
       return response.json(); // Parse the response as JSON
     })
-    .then(async (responseData) => {
-      console.log(responseData)
-      // setData(responseData); // Set the data in your component's state
-      setLoading(false); // Set loading to false once data is fetched
-      // await responseData.map(async (obj) => {
-      //   const form = new FormData()
-      //   form.append('prompt', obj["imageCaption"]["type"])
+    // .then(async (responseData) => {
+    //   console.log(responseData)
+    //   // setData(responseData); // Set the data in your component's state
+    //   setLoading(false); // Set loading to false once data is fetched
+    //   // await responseData.map(async (obj) => {
+    //   //   const form = new FormData()
+    //   //   form.append('prompt', obj["imageCaption"]["type"])
         
-      //   await fetch('https://clipdrop-api.co/text-to-image/v1', {
-      //     method: 'POST',
-      //     headers: {
-      //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-      //     },
-      //     body: form,
-      //   })
-      //   .then(response => response.arrayBuffer())
-      //   .then(buffer => {
-      //     const blob = new Blob([buffer])
-      //     const srcBlob = URL.createObjectURL(blob);
-      //     console.log("Added Image")
-      //     setImgData(srcBlob);
-      //   })
-      //   return {...obj, imageSrc: imgData}
-      // })
-      console.log("responseData")
-      console.log(responseData)
+    //   //   await fetch('https://clipdrop-api.co/text-to-image/v1', {
+    //   //     method: 'POST',
+    //   //     headers: {
+    //   //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
+    //   //     },
+    //   //     body: form,
+    //   //   })
+    //   //   .then(response => response.arrayBuffer())
+    //   //   .then(buffer => {
+    //   //     const blob = new Blob([buffer])
+    //   //     const srcBlob = URL.createObjectURL(blob);
+    //   //     console.log("Added Image")
+    //   //     setImgData(srcBlob);
+    //   //   })
+    //   //   return {...obj, imageSrc: imgData}
+    //   // })
+    //   console.log("responseData")
+    //   console.log(responseData)
 
-    })
+    // })
     .catch((error) => {
       console.error('Error fetching data:', error);
       console.log("Bad")
       setLoading(false); // Set loading to false in case of an error
     });
 
+    let responseData = sampleResponse;
+
     let proms = responseData.map(async (obj) => {
       const form = new FormData()
       form.append('prompt', obj["imageCaption"]["type"])
       
-      await fetch('https://clipdrop-api.co/text-to-image/v1', {
+      return await fetch('https://clipdrop-api.co/text-to-image/v1', {
         method: 'POST',
         headers: {
           'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
@@ -112,11 +105,17 @@ useEffect(() => {
         const srcBlob = URL.createObjectURL(blob);
         console.log("Added Image")
         setImgData(srcBlob);
+        return {...obj, imageSrc: srcBlob}
       })
-      return {...obj, imageSrc: imgData}
     })
 
-    setMessages([...messages, { message: responseData, sender: "Agent" }]);
+    let latestMessage = await Promise.all(proms).then((vals) => {
+      console.log("Images Stored")
+      console.log(vals)
+      return vals;
+    })
+
+    setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
 
 
   // You can run any code you want here.
@@ -233,9 +232,6 @@ useEffect(() => {
     } */}
     <div className={styles.chatCont}
          >
-    {imgData && (
-        <Image src={imgData} width={300} height={400} alt="Uploaded Image" />
-      )}
         {messages.map((message) => {
             if (message.sender == "Agent")
             return (
@@ -252,7 +248,7 @@ useEffect(() => {
                         return (
                           <>
                         <Image
-                          src="/profile/im_chat.jpg"
+                          src={data.imageSrc}
                           width={360}
                           height={240}
                           style={chatImageStyle}
