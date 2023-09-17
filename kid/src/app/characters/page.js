@@ -29,7 +29,11 @@ export default function CharactersPage() {
     { name: 'Iron Man', fileName: 'ironman' },
     { name: 'Barbie', fileName: 'barbie' },
     { name: 'Spiderman', fileName: 'spiderman' },
-    { name: 'Superman', fileName: 'Superman' },
+    { name: 'Mickey Mouse', fileName: 'mickey' },
+    { name: 'Elsa', fileName: 'elsa' },
+    { name: 'Harry Potter', fileName: 'harrypotter' },
+    { name: 'Cookie Monstor', fileName: 'cookiemonstor' },
+    { name: 'Barney the Dinosaur', fileName: 'barney'}
   ];
 
   const handleCharacterClick = (character) => {
@@ -43,7 +47,7 @@ export default function CharactersPage() {
     <div className={dm_sans.className}>
       <div className={styles.container}>
 
-        <h1>Characters</h1>
+        {/* <h1>Characters</h1> */}
 
         <div className={styles.characterList}>
 
@@ -51,19 +55,21 @@ export default function CharactersPage() {
             return (
               <div
                 key={character.name}
-                className={`${styles.characterItem} ${selectedCharacter === character ? styles.active : ''}`}
+                className={styles.characterItem}
                 onClick={() => handleCharacterClick(character)}
               >
                 <Link
                   key={`${character.name}-link`}
                   href='/chat'
                 >
-                  <Image
+                  {/* <Image
                     src={`/characters/${character.fileName.toLowerCase()}.jpeg`}
                     alt={character.name}
                     width={500}
                     height={500}
-                  />
+                  /> */}
+
+                  <h1>{character.name}</h1>
                 </Link>
               </div>
             )

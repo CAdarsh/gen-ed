@@ -1,7 +1,31 @@
+.container {
+    background: linear-gradient(45deg, rgb(124, 203, 206), rgba(89, 172, 197, 0.7), rgb(40, 136, 165), rgba(33, 143, 207, 0.7));
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    height: 100%;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .container h1 {
     padding: 2vh 0;
     font-weight: 700;
     font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -12,11 +36,21 @@
 }
 
 .characterItem {
-    height: 50vh;
+    height: 33vh;
     /* border: 1px solid black; */
+    transition: transform 0.3s;
 }
 
-.characterItem img {
+.characterItem:hover {
+    transform: scale(1.4);
+}
+
+.characterItem h1 {
+    height: 100%;
+    text-align: center;
+}
+
+/* .characterItem img {
     width: 100%;
     height: 100%;
-}
+} */

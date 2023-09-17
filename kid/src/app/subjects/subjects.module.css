@@ -1,8 +1,32 @@
+.container {
+    background: linear-gradient(45deg, rgb(102, 165, 102), rgba(109, 196, 109, 0.7), rgb(79, 146, 79), rgba(59, 216, 59, 0.7));
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    height: 100%;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .container h1 {
-    padding: 2vh 0;
+    /* padding: 2vh 0; */
     font-weight: 700;
     font-size: 50px;
+    display: flex;
+    align-items: center;
     text-align: center;
+    justify-content: center;
 }
 
 .subjectList {
@@ -12,25 +36,36 @@
 }
 
 .subjectItem {
-    height: 50vh;
-    /* border: 1px solid black; */
+    height: 33vh;
+    cursor: pointer;
+    transition: transform 0.3s;
+    /* border: 2px solid black; */
 }
 
-.subjectItem img {
+.subjectItem:hover {
+    transform: scale(1.4);
+}
+
+/* .subjectItem img {
     width: 100%;
     height: 100%;
+    object-fit: fill;
+} */
+
+.subjectItem h1 {
+    height: 100%;
+    text-align: center;
 }
 
 .topicItems {
-    max-height: 50vh;
+    max-height: 33vh;
     overflow-y: auto;
-    padding: 10%;
-    border: 1px solid black;
+    padding: 5%;
 }
 
 ul.topicList {
     list-style: none;
-    padding-bottom: 10%;
+    /* padding-bottom: 10%;  */
 }
 
 ul.topicList li {

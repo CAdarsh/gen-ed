@@ -17,7 +17,7 @@ const dm_sans = DM_Sans({
 
 
 export default function SubjectsPage() {
-
+  
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("subject");
     localStorage.removeItem("topic");
@@ -26,10 +26,14 @@ export default function SubjectsPage() {
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   const subjects = [
-    { name: 'maths', topics: ['Addition', 'Subtraction', 'Multiplication'] },
-    { name: 'science', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'geography', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'history', topics: ['Physics', 'Chemistry', 'Biology'] },
+    { name: 'Maths', topics: ['Counting', 'Number Recognition', 'Basic Operations', 'Measurements'] },
+    { name: 'Science', topics: ['Seasons', 'Animals', 'Basic Astronomy & Space', 'Plants'] },
+    { name: 'Languages', topics: ['English', 'Spanish', 'French', 'German'] },
+    { name: 'Art', topics: ['Colors', 'Shapes', 'Art Supplies', 'Sculputres'] },
+    { name: 'Geography', topics: ['Continents', 'Countries', 'Oceans', 'Landforms'] },
+    { name: 'History', topics: ['Famous Figures', 'Historical Events', 'Culture', 'Artifcats & Clothing'] },
+    { name: 'Music', topics: ['Rhythm & Meloday', 'Instruments', 'Sing-along!'] },
+    { name: 'Physical Education', topics: ['Sports', 'Safety', 'Food'] },
     // Add more subjects and topics as needed
   ];
 
@@ -54,7 +58,7 @@ export default function SubjectsPage() {
     <div className={dm_sans.className}>
       <div className={styles.container}>
 
-        <h1>Subjects</h1>
+        {/* <h1>Subjects</h1> */}
 
         <div className={styles.subjectList}>
 
@@ -86,15 +90,16 @@ export default function SubjectsPage() {
                 (
                   <div
                     key={subject.name}
-                    className={`${styles.subjectItem} ${selectedSubject === subject ? styles.active : ''}`}
+                    className={styles.subjectItem}
                     onClick={() => handleSubjectClick(subject)}
                   >
-                    <Image
+                    {/* <Image
                       src={`/subjects/${subject.name.toLowerCase()}.jpeg`}
                       alt={subject.name}
                       width={500}
                       height={500}
-                    />
+                    /> */}
+                    <h1>{subject.name}</h1>
                   </div>
                 )
             )

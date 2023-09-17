@@ -1,0 +1,67 @@
+.container {
+    height: 100vh;
+}
+
+.container h1 {
+    padding: 2vh 0;
+    font-weight: 500;
+    font-size: 50px;
+    text-align: center;
+}
+
+.evaluation {
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    font-weight: 300;
+    font-size: 30px;
+    text-align: center;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    padding: 5%;
+}
+
+.singleOption {
+    display: flex;
+    flex-direction: column;
+}
+
+.singleOption h4 {
+    text-align: center;
+    padding-top: 6%;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.options img {
+    transition: transform 0.3s;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.options img:hover {
+    transform: scale(1.1);
+}
+
+.active {
+    transform: scale(1.1);  
+}
+
+.answer {
+    font-weight: 300;
+    font-size: 30px;
+    text-align: center;
+    padding-bottom: 2%;
+}
+
+.arrowIcon {
+    text-align: center;
+}
