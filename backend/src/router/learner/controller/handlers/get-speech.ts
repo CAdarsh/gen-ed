@@ -34,7 +34,9 @@ const handler = async (req: Request, res: Response) => {
     const audio = fs.readFileSync('output.mp3');
     console.log('Audio content read from file:', audio);
 
-    res.status(StatusCodes.OK).send(audio);
+    res.set('Content-Type', 'audio/mpeg');
+    res.end(audio, 'binary');
+
 
   } catch (error) {
     logger.error(error);
