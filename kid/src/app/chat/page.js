@@ -18,6 +18,7 @@ const dm_sans = DM_Sans({
 export default function Chat() {
   const [isLoading, setLoading] = useState(false);
   const [imgData, setImgData] = useState(false);
+  const [subject, setSubject] = useState("");
   const [ suggestedFollowUps, setSuggestedFollowUps ] = useState([
     "What if plant runs out of CO2?",
     "Is Manchester United real?",
@@ -37,8 +38,10 @@ useEffect(async () => {
   const character = localStorage.getItem('character');
   const topic = localStorage.getItem('topic');
 
+  setSubject(subject);
+
   // // Make a POST request using the fetch API
-  fetch('http://localhost:5000/api/v1/learner/story', {
+  let messageData = await fetch('http://localhost:5000/api/v1/learner/story', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', // Specify the content type as JSON
@@ -52,7 +55,11 @@ useEffect(async () => {
       console.log("Called-Lol")
       return response.json(); // Parse the response as JSON
     })
-    // .then(async (responseData) => {
+    .then((responseData) => {
+      return responseData;
+    })
+    console.log(messageData)
+    console.log("messageData")
     //   console.log(responseData)
     //   // setData(responseData); // Set the data in your component's state
     //   setLoading(false); // Set loading to false once data is fetched
@@ -86,7 +93,9 @@ useEffect(async () => {
       setLoading(false); // Set loading to false in case of an error
     });
 
-    let responseData = sampleResponse;
+    // let responseData = sampleResponse;
+    let responseData = messageData;
+    
 
     let proms = responseData.map(async (obj) => {
       const form = new FormData()
@@ -220,16 +229,8 @@ useEffect(() => {
         className={styles.mainCont}>
     <div className={styles.subCont}>
        <h1>Limitless</h1>
-      <h2>Topic of the day: Photosynthesis</h2>
-    {/* {
-      imgData ? <Image
-      src={imgData}
-      width={500}
-      height={500}
-      style={imageStyle}
-      alt="My image"
-  /> : <></>
-    } */}
+      <h2>Topic of the day: {subject}</h2>
+   
     <div className={styles.chatCont}
          >
         {messages.map((message) => {
