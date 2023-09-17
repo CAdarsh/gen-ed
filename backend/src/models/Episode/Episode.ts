@@ -13,6 +13,7 @@ interface EpisodeAttrs {
 interface EpisodeDoc extends mongoose.Document {
   topic: string;
   userId: string;
+  gender: string;
   rawStory: string;
   turns: { _id?: string, prompt: string, response: string, timestamp: Date, }[];
   story: { _id?: string, text: string, imageCaption: string, }[];
@@ -26,6 +27,9 @@ interface EpisodeModel extends mongoose.Model<EpisodeDoc> {
 const episodesSchema = new mongoose.Schema({
 
   topic: {
+    type: String
+  },
+  gender: {
     type: String
   },
   userId: {

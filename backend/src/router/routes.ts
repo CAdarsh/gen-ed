@@ -11,6 +11,7 @@ export enum learnerChatRoutes {
   Chat = '/chat',
   HistoryChat = '/chat-history',
   questionSuggestion = '/question-suggestion',
+  GetSpeech = '/speech',
 }
 
 export enum userRoutes {
