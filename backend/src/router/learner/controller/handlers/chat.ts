@@ -41,79 +41,83 @@ const handler = async (req: Request, res: Response) => {
     }
     // Retrieve the conversation log and save the user's prompt
     const conversationLog = await episode.getConversationLog()
-    const conversationHistory = conversationLog.slice(-10)
+    const conversationHistory = conversationLog.slice()
 
 
-    // const promptTemplate = new PromptTemplate({
-    //   template: templates.qaTemplate,
-    //   inputVariables: ["question", "conversationHistory", "topic"]
-    // });
-
-
-
-    // const chat = new ChatOpenAI({
-    //   verbose: true,
-    //   modelName: 'gpt-4',
-    //   temperature: 0.7
-    // });
-
-    // const chain = new LLMChain({
-    //   prompt: promptTemplate,
-    //   llm: chat,
-    // });
-
-
-    // const data = await chain.call({
-    //   question: input,
-    //   conversationHistory,
-    //   topic: episode.topic
-    // });
-
-    // image caption chain for image generation from the response
-    // const imageCaptionTemplate = new PromptTemplate({
-    //   template: templates.imageCaptionTemplate,
-    //   inputVariables: ["response", "topic", "conversationHistory", "query"]
-    // });
-
-    // const imageCaptionChain = new LLMChain({
-    //   prompt: imageCaptionTemplate,
-    //   llm: chat,
-    // });
-
-    // const imageCaptionResult = await imageCaptionChain.call({
-    //   response: data.text,
-    //   query: input,
-    //   topic: topic!.description,
-    //   conversationHistory
-    // });
-
-    // episode.turns.push({
-    //   prompt: input,
-    //   response: data.text,
-    //   timestamp: new Date(),
-    // });
-
-
-
-    // const response = {
-    //   "_id": episode.turns[episode.turns.length - 1]._id,
-    //   "text": data.text,
-    //   "image": "imageCaptionResult.text",
-    // }
-    res.status(StatusCodes.OK).send({
-      text: "Hi there! I’m {character}, and I’m going to tell you a story about {topic}. Do you know what {topic} is? It’s a way of explaining how things change over time. For example, how ice melts into water, or how perfume spreads in a room. Let me show you how it works with a fun adventure!"
+    const promptTemplate = new PromptTemplate({
+      template: templates.qaTemplate,
+      inputVariables: ["question", "character", "conversationHistory", "topic", "age"]
     });
 
 
 
-    //TODO analyze sentiment of the input
+    const chat = new ChatOpenAI({
+      verbose: true,
+      modelName: 'gpt-4',
+      temperature: 0.7
+    });
 
-    // await episode.save();
+    const chain = new LLMChain({
+      prompt: promptTemplate,
+      llm: chat,
+    });
 
-    // res.status(StatusCodes.OK).send({
-    //   response: "This is a response",
-    // })
 
+    const data = await chain.call({
+      question: input,
+      character: user!.favouriteCharacter,
+      conversationHistory,
+      topic: episode.topic,
+      age: user!.age
+    });
+
+    // image caption 
+    // image caption chain for image generation from the response
+    const imageCaptionTemplate = new PromptTemplate({
+      template: templates.imagePrompt,
+      inputVariables: ["story"]
+    });
+
+    const imageCaptionChain = new LLMChain({
+      prompt: imageCaptionTemplate,
+      llm: chat,
+    });
+
+    const imageCaptionResult = await imageCaptionChain.call({
+      story: data.text
+    });
+
+    // parse text image prompt from the response -> Image prompt: <prompt>\nText: <text>\n---\nImage prompt: <prompt>\nText: <text>\n---...
+    const imageCaptions: any[] = []
+    const text: string[] = []
+    imageCaptionResult.text.split("---").map((item: string) => {
+      let text_img_pair = item.split("\n\n")
+      // remove any empty strings
+      text_img_pair = text_img_pair.filter((item: string) => item !== "")
+      console.log(text_img_pair)
+      text.push(text_img_pair[1].split(":")[1].trim())
+      imageCaptions.push(text_img_pair[0].split(":")[1].trim())
+    })
+
+    const story = text.map((item, index) => {
+      return {
+        text: item,
+        imageCaption: imageCaptions[index]
+      }
+    })
+
+
+    res.status(StatusCodes.OK).send(story);
+
+    episode.turns.push({
+      prompt: input,
+      response: data.text,
+      timestamp: new Date()
+    })
+
+
+
+    await episode.save();
   } catch (error) {
     //@ts-ignore
     console.error(error)

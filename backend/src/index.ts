@@ -61,7 +61,7 @@ const start = async () => {
     if (!user) {
       const user = await Users.build({
         favouriteCharacter: "Harry Potter",
-        currentTaskId: "1"
+        topic: "1"
       })
 
       await user.save()

@@ -10,6 +10,7 @@ export enum learnerChatRoutes {
   Story = '/story',
   Chat = '/chat',
   HistoryChat = '/chat-history',
+  questionSuggestion = '/question-suggestion',
 }
 
 export enum userRoutes {

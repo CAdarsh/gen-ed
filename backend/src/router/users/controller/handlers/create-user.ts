@@ -17,7 +17,7 @@ const handler = async (req: Request, res: Response) => {
 
   const user = await Users.build({
     favouriteCharacter,
-    currentTaskId: task
+    topic: task
   })
 
   await user.save()

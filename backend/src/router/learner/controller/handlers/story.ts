@@ -111,8 +111,15 @@ const handler = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.OK).send(episode.story)
 
+    episode.rawStory = data.text
+
     // save the episode
     await episode.save()
+
+    user!.favouriteCharacter = favouriteCharacter
+    user!.age = age
+    user!.topic = topic
+    await user?.save()
 
 
   } catch (error) {
