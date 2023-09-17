@@ -19,6 +19,7 @@ export default function Chat() {
   const [imgData, setImgData] = useState(false);
   const [subject, setSubject] = useState('');
   const [topic, setTopic] = useState('');
+  const [mainLoad, setMainLoad] = useState(true);
 
   const [storyResponse, setStoryResponse] = useState();
   const [suggestedFollowUps, setSuggestedFollowUps] = useState([
@@ -39,7 +40,7 @@ export default function Chat() {
         method: 'POST',
         headers: {
           'x-api-key':
-            'd5d792c3a2cc2106c0432d13e1cbb787501b8981d3d597192bcd1e617524396f09f0091ca1b0fc3b08375a02b5d677a1',
+            'b691bfe225eba22830e501510bdbfda3337c350c0c43862bccb46f12bc8cadd36d7c7b6f278832ccf15b7c8af8e53eef',
         },
         body: form,
       })
@@ -127,6 +128,8 @@ export default function Chat() {
         Promise.all(proms, (values) => {
           setAudioState(values);
         })
+
+        setMainLoad(false)
       })
       .catch((error) => console.log('error', error));
   }, []);
@@ -231,7 +234,7 @@ export default function Chat() {
 
   return (
     <div className={dm_sans.className}>
-      <div className={styles.mainPageLoader}>
+      <div className={ mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}>
           Your lesson is being prepared for you! 
               <Player
                   autoplay
