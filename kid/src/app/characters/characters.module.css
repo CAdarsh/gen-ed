@@ -12,11 +12,21 @@
 }
 
 .characterItem {
-    height: 50vh;
-    /* border: 1px solid black; */
+    height: 33vh;
+    border: 1px solid black;
+    transition: transform 0.3s;
 }
 
-.characterItem img {
+.characterItem:hover {
+    transform: scale(0.95);
+}
+
+.characterItem h1 {
+    height: 100%;
+    text-align: center;
+}
+
+/* .characterItem img {
     width: 100%;
     height: 100%;
-}
+} */

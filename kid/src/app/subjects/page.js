@@ -17,7 +17,7 @@ const dm_sans = DM_Sans({
 
 
 export default function SubjectsPage() {
-
+  
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("subject");
     localStorage.removeItem("topic");
@@ -30,6 +30,8 @@ export default function SubjectsPage() {
     { name: 'science', topics: ['Physics', 'Chemistry', 'Biology'] },
     { name: 'geography', topics: ['Physics', 'Chemistry', 'Biology'] },
     { name: 'history', topics: ['Physics', 'Chemistry', 'Biology'] },
+    { name: 'english', topics: ['Physics', 'Chemistry', 'Biology'] },
+    { name: 'hindi', topics: ['Physics', 'Chemistry', 'Biology'] },
     // Add more subjects and topics as needed
   ];
 
@@ -54,7 +56,7 @@ export default function SubjectsPage() {
     <div className={dm_sans.className}>
       <div className={styles.container}>
 
-        <h1>Subjects</h1>
+        {/* <h1>Subjects</h1> */}
 
         <div className={styles.subjectList}>
 
@@ -86,15 +88,16 @@ export default function SubjectsPage() {
                 (
                   <div
                     key={subject.name}
-                    className={`${styles.subjectItem} ${selectedSubject === subject ? styles.active : ''}`}
+                    className={styles.subjectItem}
                     onClick={() => handleSubjectClick(subject)}
                   >
-                    <Image
+                    {/* <Image
                       src={`/subjects/${subject.name.toLowerCase()}.jpeg`}
                       alt={subject.name}
                       width={500}
                       height={500}
-                    />
+                    /> */}
+                    <h1>{subject.name}</h1>
                   </div>
                 )
             )
