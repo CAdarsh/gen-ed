@@ -45,7 +45,7 @@ const handler = async (req: Request, res: Response) => {
 
 
     const promptTemplate = new PromptTemplate({
-      template: templates.qaTemplate,
+      template: templates.unifiedQaTemplate,
       inputVariables: ["question", "character", "conversationHistory", "topic", "age"]
     });
 
@@ -72,25 +72,10 @@ const handler = async (req: Request, res: Response) => {
     });
 
     // image caption 
-    // image caption chain for image generation from the response
-    const imageCaptionTemplate = new PromptTemplate({
-      template: templates.imagePrompt,
-      inputVariables: ["story"]
-    });
-
-    const imageCaptionChain = new LLMChain({
-      prompt: imageCaptionTemplate,
-      llm: chat,
-    });
-
-    const imageCaptionResult = await imageCaptionChain.call({
-      story: data.text
-    });
-
     // parse text image prompt from the response -> Image prompt: <prompt>\nText: <text>\n---\nImage prompt: <prompt>\nText: <text>\n---...
     const imageCaptions: any[] = []
     const text: string[] = []
-    imageCaptionResult.text.split("---").map((item: string) => {
+    data.text.split("---").map((item: string) => {
       let text_img_pair = item.split("\n\n")
       // remove any empty strings
       text_img_pair = text_img_pair.filter((item: string) => item !== "")
