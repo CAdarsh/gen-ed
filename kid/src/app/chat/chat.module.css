@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     margin: 0vh 0;
-    background-color: #f5f5f5;      
+    background-color: #e9f1fa;      
 }
 
 
@@ -20,9 +20,10 @@
     text-align: center;
     padding-top: 10vh;
     z-index: 100;
-    height: 100vh;
+    height: 200vh;
     width: 100vw;
-    background-color: rgb(20, 141, 162);
+    background-color: #fcbfc8;
+    color: #631420;
 }
 
 .subCont h1{
@@ -96,7 +97,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    background-color: #d0e6cb;
+    background-color: #e9f1fa;
     max-width: 100%;
     width: 100%;
     overflow-y: visible;
@@ -110,7 +111,7 @@
     left: 11%;
     z-index: 99;
     position: fixed;
-    background-color: rgb(42, 51, 44);
+    background-color: #cbe6ff;
     bottom: 2%;
     height: 50px;
     display: flex;
@@ -122,19 +123,19 @@
 
 .inpForm{
     width: 90%;
-    background-color: rgb(42, 51, 44);
+    background-color: #cbe6ff;
     border: none;
     font-size: 16px;
 }
 
 .inpForm:focus{
-    background-color: rgb(42, 51, 44);
+    background-color: #cbe6ff;
     border: none;
     outline: none;
 }
 
 .button{
-    background-color: rgb(42, 51, 44);
+    background-color: #cbe6ff;
     border: none;
     font-weight: 600;
     font-size: 16px;
@@ -150,10 +151,8 @@
 }
 
 
-@keyframes glow {
+/* @keyframes glow {
     0% {
-      /* box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.5);
-       */
     -webkit-box-shadow: 0px 0px 40px -10px rgba(98, 255, 66, 0.765);
     }
     50% {
@@ -166,8 +165,6 @@
 
   @keyframes glowGold {
     0% {
-      /* box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.5);
-       */
     -webkit-box-shadow: 0px 10px 40px -10px rgba(255, 230, 66, 0.765);
     }
     50% {
@@ -176,14 +173,14 @@
     100% {
     -webkit-box-shadow: 0px 10px 40px -10px rgba(255, 230, 66, 0.728);
     }
-  }
+  } */
 
   .suggested div{
-    border: 2px solid rgb(28, 118, 31);
+    border: 2px solid #257aca;
     border-radius: 8px;
     padding: 10px;
     animation: 8s glowGold infinite ease-in-out;
-    background-color: #d6eed0;
+    background-color: #cbe6ff;
 
 }
 
@@ -192,8 +189,8 @@
 }
 
 .chatCont{
-    border: 2px solid #d0e6cb;
-    -webkit-box-shadow: 0px 3px 40px -10px rgba(98, 255, 66, 0.43);
+    border: 2px solid #cbe6ff;
+    /* -webkit-box-shadow: 0px 3px 40px -10px rgba(98, 255, 66, 0.43); */
     /* -moz-box-shadow: 0px 3px 40px -10px rgba(98,255,66,1);
     box-shadow: 0px 3px 40px -10px rgba(98,255,66,1); */
     animation: 8s glow infinite ease-in-out;

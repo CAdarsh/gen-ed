@@ -1,5 +1,7 @@
 .container {
     height: 100vh;
+    background-color: #d9ead3;
+    color: #194b07;
 }
 
 .container h1 {
@@ -7,6 +9,24 @@
     font-weight: 500;
     font-size: 50px;
     text-align: center;
+}
+
+.mainPageLoaderHide{
+    display: None;
+    z-index: -100 !important;
+}
+
+.mainPageLoader{
+    position: absolute;
+    font-size: 48px;
+    top: 0;
+    text-align: center;
+    padding-top: 10vh;
+    z-index: 100;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fcbfc8;
+    color: #631420;
 }
 
 .evaluationContainer {
@@ -18,6 +38,7 @@
     font-weight: 300;
     font-size: 30px;
     text-align: center;
+    padding: auto 5%;
 }
 
 .options {

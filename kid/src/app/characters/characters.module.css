@@ -1,5 +1,5 @@
 .container {
-    background: linear-gradient(45deg, rgb(124, 203, 206), rgba(89, 172, 197, 0.7), rgb(40, 136, 165), rgba(33, 143, 207, 0.7));
+    background: #c1e9b2;
     background-size: 400% 400%;
     animation: gradientAnimation 15s ease infinite;
     height: 100%;
@@ -27,6 +27,42 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    color: #194b07;
+}
+
+/* styles/SearchBar.module.css */
+.searchContainer {
+    display: flex;
+    align-items: center;
+    /* border: 2px solid #ccc; */
+    border-radius: 50px;
+    overflow: hidden;
+    width: 80%;
+    padding: 2%;
+    position: relative;
+    margin: 0 auto;
+    /* Adjust the width as needed */
+}
+
+.searchInput {
+    flex: 1;
+    border: none;
+    padding: 30px;
+    font-size: 30px;
+    border-radius: 25px;
+    outline: none;
+    height: 50px;
+}
+
+.searchButton {
+    background-color: #c1e9b2;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: absolute;
+    right: 45px;
 }
 
 .characterList {

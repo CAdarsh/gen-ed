@@ -40,7 +40,7 @@ export default function Chat() {
         method: 'POST',
         headers: {
           'x-api-key':
-            'b691bfe225eba22830e501510bdbfda3337c350c0c43862bccb46f12bc8cadd36d7c7b6f278832ccf15b7c8af8e53eef',
+            'aeb1612f3af2540cd5f4c5977226ed29dbf1a677b8798e090906b37835e20b0a469103bebc9d96ddb92fd55e5b749d27',
         },
         body: form,
       })
@@ -235,7 +235,7 @@ export default function Chat() {
   return (
     <div className={dm_sans.className}>
       <div className={ mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}>
-          Your lesson is being prepared for you! 
+          Your evaluation is being prepared for you! 
               <Player
                   autoplay
                   loop

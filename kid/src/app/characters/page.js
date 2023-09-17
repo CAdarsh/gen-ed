@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import styles from './characters.module.css'
 
+import { AiOutlineSearch } from 'react-icons/ai'
+
 import Image from 'next/image';
 import Link from "next/link";
 
@@ -19,6 +21,7 @@ const dm_sans = DM_Sans({
 
 export default function CharactersPage() {
 
+  let [inputVal, setInputVal] = useState();
 
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("character");
@@ -33,7 +36,7 @@ export default function CharactersPage() {
     { name: 'Mickey Mouse', fileName: 'mickey' },
     { name: 'Elsa', fileName: 'elsa' },
     { name: 'Harry Potter', fileName: 'harrypotter' },
-    { name: 'Cookie Monstor', fileName: 'cookiemonstor' },
+    { name: 'Cookie Monster', fileName: 'cookiemonstor' },
     { name: 'Barney the Dinosaur', fileName: 'barney' }
   ];
 
@@ -43,12 +46,30 @@ export default function CharactersPage() {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("character", inputVal);
+    }
+
+    redirect('/chat')
+  }
+  const handleChange = (e) => {
+    setInputVal(e.target.value)
+  }
 
   return (
     <div className={dm_sans.className}>
       <div className={styles.container}>
 
         {/* <h1>Characters</h1> */}
+
+        <form class={styles.searchContainer} onSubmit={handleSubmit}>
+          <input type="text" id='text' class={styles.searchInput} onChange={(e) => handleChange(e)} />
+          <button type='submit' className={styles.searchButton}>
+            <AiOutlineSearch />
+          </button>
+        </form>
 
         <div className={styles.characterList}>
 

@@ -20,8 +20,9 @@ const dm_sans = DM_Sans({
 
 
 export default function SubjectsPage() {
-  // localStorage.clear()
+  localStorage.clear()
   let [inputVal, setInputVal] = useState();
+
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("subject");
     localStorage.removeItem("topic");

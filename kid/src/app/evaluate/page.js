@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from "next/link";
 
+import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 import { DM_Sans } from 'next/font/google'
 
@@ -35,6 +36,7 @@ export default function EvaluatePage() {
 
   const [selectedAnswer, setSelectedAnswer] = useState(localStorage.getItem('selectedAnswer') || null);
   const [evaluation, setEvaluation] = useState(JSON.parse(localStorage.getItem('evaluation')) || null)
+  const [mainLoad, setMainLoad] = useState(true);
 
   let router = useRouter()
 
@@ -76,7 +78,7 @@ export default function EvaluatePage() {
         await fetch('https://clipdrop-api.co/text-to-image/v1', {
           method: 'POST',
           headers: {
-            'x-api-key': "b691bfe225eba22830e501510bdbfda3337c350c0c43862bccb46f12bc8cadd36d7c7b6f278832ccf15b7c8af8e53eef",
+            'x-api-key': "aeb1612f3af2540cd5f4c5977226ed29dbf1a677b8798e090906b37835e20b0a469103bebc9d96ddb92fd55e5b749d27",
           },
           body: form,
         })
@@ -101,7 +103,7 @@ export default function EvaluatePage() {
         await fetch('https://clipdrop-api.co/text-to-image/v1', {
           method: 'POST',
           headers: {
-            'x-api-key': "b691bfe225eba22830e501510bdbfda3337c350c0c43862bccb46f12bc8cadd36d7c7b6f278832ccf15b7c8af8e53eef",
+            'x-api-key': "aeb1612f3af2540cd5f4c5977226ed29dbf1a677b8798e090906b37835e20b0a469103bebc9d96ddb92fd55e5b749d27",
           },
           body: form,
         })
@@ -124,7 +126,7 @@ export default function EvaluatePage() {
             console.log("Bad")
             setLoading(false); // Set loading to false in case of an error
           });
-
+          setMainLoad(false)
       });
   }, []);
 
@@ -137,12 +139,21 @@ export default function EvaluatePage() {
 
   const handleIconClick = () => {
       localStorage.clear()
-      redirect()
+      // redirect()
 
   }
 
   return (
     <div className={dm_sans.className}>
+      <div className={ mainLoad ? styles.mainPageLoader : styles.mainPageLoaderHide}>
+          Your lesson is being prepared for you! 
+              <Player
+                  autoplay
+                  loop
+                  src="https://lottie.host/fe7b668d-fb68-4556-be13-f73ec46b82ec/MT9bTkinxH.json"
+                  style={{ height: '100vh', width: '100vw' }}
+                ></Player>
+      </div>
       <div className={styles.container}>
 
         <h1>Evaluation</h1>
@@ -162,8 +173,8 @@ export default function EvaluatePage() {
                 src={evaluation.image1 ? evaluation.image1 : '/'}
                 className={selectedAnswer === 1 ? styles.active : ''}
                 alt='image1'
-                width={400}
-                height={400}
+                width={300}
+                height={300}
                 onClick={() => handleImageClick(1)}
               />
               <h4>{evaluation.correctAnswer}</h4>
@@ -174,8 +185,8 @@ export default function EvaluatePage() {
                 src={evaluation.image2 ? evaluation.image2 : '/'}
                 className={selectedAnswer === 2 ? styles.active : ''}
                 alt='image2'
-                width={400}
-                height={400}
+                width={300}
+                height={300}
                 onClick={() => handleImageClick(2)}
               />
               <h4>{evaluation.wrongOption}</h4>
