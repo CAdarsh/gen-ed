@@ -27,6 +27,8 @@ export default function Chat() {
     'Concept Learned 👍',
   ]);
   const [messages, setMessages] = useState([]);
+  const [audioState, setAudioState] = useState([]);
+
 
   const loadImages = async (storyResponses) => {
     console.log({ storyResponses });
@@ -100,6 +102,7 @@ export default function Chat() {
       topic: topic,
     });
 
+
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -115,10 +118,20 @@ export default function Chat() {
       .then((result) => {
         return result;
       })
-      .then(async (res) => await loadImages(res))
+      .then(async (res) => {
+        await loadImages(res);
+        let proms = res.map((obj) => {
+          getAudio(obj["text"])
+        });
+
+        Promise.all(proms, (values) => {
+          setAudioState(values);
+        })
+      })
       .catch((error) => console.log('error', error));
   }, []);
 
+  
   const sampleResponse = [
     {
       text: {
@@ -218,6 +231,15 @@ export default function Chat() {
 
   return (
     <div className={dm_sans.className}>
+      <div className={styles.mainPageLoader}>
+          Your lesson is being prepared for you! 
+              <Player
+                  autoplay
+                  loop
+                  src="https://lottie.host/fe7b668d-fb68-4556-be13-f73ec46b82ec/MT9bTkinxH.json"
+                  style={{ height: '100vh', width: '100vw' }}
+                ></Player>
+      </div>
       <div className={styles.parent}>
         <div className={styles.mainCont}>
           <div className={styles.subCont}>
@@ -243,9 +265,7 @@ export default function Chat() {
                               <div>
                                 <audio controls>
                                   <source
-                                    src={async () =>
-                                      await getAudio(data['text'])
-                                    }
+                                    src={audioState[0]}
                                     type="audio/mpeg"
                                   />
                                 </audio>
