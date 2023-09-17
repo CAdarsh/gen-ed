@@ -26,12 +26,14 @@ export default function SubjectsPage() {
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   const subjects = [
-    { name: 'maths', topics: ['Addition', 'Subtraction', 'Multiplication'] },
-    { name: 'science', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'geography', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'history', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'english', topics: ['Physics', 'Chemistry', 'Biology'] },
-    { name: 'hindi', topics: ['Physics', 'Chemistry', 'Biology'] },
+    { name: 'Maths', topics: ['Counting', 'Number Recognition', 'Basic Operations', 'Measurements'] },
+    { name: 'Science', topics: ['Seasons', 'Animals', 'Basic Astronomy & Space', 'Plants'] },
+    { name: 'Languages', topics: ['English', 'Spanish', 'French', 'German'] },
+    { name: 'Art', topics: ['Colors', 'Shapes', 'Art Supplies', 'Sculputres'] },
+    { name: 'Geography', topics: ['Continents', 'Countries', 'Oceans', 'Landforms'] },
+    { name: 'History', topics: ['Famous Figures', 'Historical Events', 'Culture', 'Artifcats & Clothing'] },
+    { name: 'Music', topics: ['Rhythm & Meloday', 'Instruments', 'Sing-along!'] },
+    { name: 'Physical Education', topics: ['Sports', 'Safety', 'Food'] },
     // Add more subjects and topics as needed
   ];
 

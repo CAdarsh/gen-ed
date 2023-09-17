@@ -29,9 +29,11 @@ export default function CharactersPage() {
     { name: 'Iron Man', fileName: 'ironman' },
     { name: 'Barbie', fileName: 'barbie' },
     { name: 'Spiderman', fileName: 'spiderman' },
-    { name: 'Superman', fileName: 'Superman' },
-    { name: 'Elsa', fileName: 'Superman' },
-    { name: 'Harry Potter', fileName: 'Superman' },
+    { name: 'Mickey Mouse', fileName: 'mickey' },
+    { name: 'Elsa', fileName: 'elsa' },
+    { name: 'Harry Potter', fileName: 'harrypotter' },
+    { name: 'Cookie Monstor', fileName: 'cookiemonstor' },
+    { name: 'Barney the Dinosaur', fileName: 'barney'}
   ];
 
   const handleCharacterClick = (character) => {
