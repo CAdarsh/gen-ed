@@ -30,111 +30,137 @@ export default function Chat() {
 //   message: "Thanks I got it!",
 //   sender: "User"
 // }
+useEffect(() => {
+  var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+
+const subject = localStorage.getItem('subject');
+const character = localStorage.getItem('character');
+const topic = localStorage.getItem('topic');
+
+
+var raw = JSON.stringify({
+  "age": 10,
+  "favouriteCharacter": character,
+  "topic": topic
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:5000/api/v1/learner/story", requestOptions)
+  .then(response => response.text())
+  .then(result => result)
+  .catch(error => console.log('error', error));
+}, [])
+
 
 // chat initialisation request 
-useEffect(async () => {
-  // Your code here
-  const subject = localStorage.getItem('subject');
-  const character = localStorage.getItem('character');
-  const topic = localStorage.getItem('topic');
+// useEffect(async () => {
+//   // Your code here
 
-  setSubject(subject);
+//   setSubject(subject);
 
-  // // Make a POST request using the fetch API
-  let messageData = await fetch('http://localhost:5000/api/v1/learner/story', {
-    method: 'POST',
-    mode: "no-cors", // no-cors, *cors, same-origin
-    headers: {
-      'Content-Type': 'application/json', // Specify the content type as JSON
-    },
-    body: JSON.stringify({age:10 ,favouriteCharacter:character ,topic}), // Convert the payload to JSON format
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      console.log("Called-Lol")
-      return response.json(); // Parse the response as JSON
-    })
-    .then((responseData) => {
-      return responseData;
-    })
-    .catch((err)=>{
-      console.log("Error is:")
-      console.error(err);
-    })
-    // console.log(messageData)
-    // console.log("messageData")
-    //   console.log(responseData)
-    //   // setData(responseData); // Set the data in your component's state
-    //   setLoading(false); // Set loading to false once data is fetched
-    //   // await responseData.map(async (obj) => {
-    //   //   const form = new FormData()
-    //   //   form.append('prompt', obj["imageCaption"]["type"])
+//   // // Make a POST request using the fetch API
+//   let messageData = await fetch('http://localhost:5000/api/v1/learner/story', {
+//     method: 'POST',
+//     mode: "no-cors", // no-cors, *cors, same-origin
+//     headers: {
+//       'Content-Type': 'application/json', // Specify the content type as JSON
+//     },
+//     body: JSON.stringify({age:10 ,favouriteCharacter:character ,topic}), // Convert the payload to JSON format
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       console.log("Called-Lol")
+//       return response.json(); // Parse the response as JSON
+//     })
+//     .then((responseData) => {
+//       return responseData;
+//     })
+//     .catch((err)=>{
+//       console.log("Error is:")
+//       console.error(err);
+//     })
+//     // console.log(messageData)
+//     // console.log("messageData")
+//     //   console.log(responseData)
+//     //   // setData(responseData); // Set the data in your component's state
+//     //   setLoading(false); // Set loading to false once data is fetched
+//     //   // await responseData.map(async (obj) => {
+//     //   //   const form = new FormData()
+//     //   //   form.append('prompt', obj["imageCaption"]["type"])
         
-    //   //   await fetch('https://clipdrop-api.co/text-to-image/v1', {
-    //   //     method: 'POST',
-    //   //     headers: {
-    //   //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-    //   //     },
-    //   //     body: form,
-    //   //   })
-    //   //   .then(response => response.arrayBuffer())
-    //   //   .then(buffer => {
-    //   //     const blob = new Blob([buffer])
-    //   //     const srcBlob = URL.createObjectURL(blob);
-    //   //     console.log("Added Image")
-    //   //     setImgData(srcBlob);
-    //   //   })
-    //   //   return {...obj, imageSrc: imgData}
-    //   // })
-    //   console.log("responseData")
-    //   console.log(responseData)
+//     //   //   await fetch('https://clipdrop-api.co/text-to-image/v1', {
+//     //   //     method: 'POST',
+//     //   //     headers: {
+//     //   //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
+//     //   //     },
+//     //   //     body: form,
+//     //   //   })
+//     //   //   .then(response => response.arrayBuffer())
+//     //   //   .then(buffer => {
+//     //   //     const blob = new Blob([buffer])
+//     //   //     const srcBlob = URL.createObjectURL(blob);
+//     //   //     console.log("Added Image")
+//     //   //     setImgData(srcBlob);
+//     //   //   })
+//     //   //   return {...obj, imageSrc: imgData}
+//     //   // })
+//     //   console.log("responseData")
+//     //   console.log(responseData)
 
-    // })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-      console.log("Bad")
-      setLoading(false); // Set loading to false in case of an error
-    });
+//     // })
+//     .catch((error) => {
+//       console.error('Error fetching data:', error);
+//       console.log("Bad")
+//       setLoading(false); // Set loading to false in case of an error
+//     });
 
-    // let responseData = sampleResponse;
-    let responseData = messageData;
+//     // let responseData = sampleResponse;
+//     let responseData = messageData;
     
 
-    let proms = responseData.map(async (obj) => {
-      const form = new FormData()
-      form.append('prompt', obj["imageCaption"]["type"])
+//     let proms = responseData.map(async (obj) => {
+//       const form = new FormData()
+//       form.append('prompt', obj["imageCaption"]["type"])
       
-      return await fetch('https://clipdrop-api.co/text-to-image/v1', {
-        method: 'POST',
-        headers: {
-          'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-        },
-        body: form,
-      })
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        const blob = new Blob([buffer])
-        const srcBlob = URL.createObjectURL(blob);
-        console.log("Added Image")
-        setImgData(srcBlob);
-        return {...obj, imageSrc: srcBlob}
-      })
-    })
+//       return await fetch('https://clipdrop-api.co/text-to-image/v1', {
+//         method: 'POST',
+//         headers: {
+//           'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
+//         },
+//         body: form,
+//       })
+//       .then(response => response.arrayBuffer())
+//       .then(buffer => {
+//         const blob = new Blob([buffer])
+//         const srcBlob = URL.createObjectURL(blob);
+//         console.log("Added Image")
+//         setImgData(srcBlob);
+//         return {...obj, imageSrc: srcBlob}
+//       })
+//     })
 
-    let latestMessage = await Promise.all(proms).then((vals) => {
-      console.log("Images Stored")
-      console.log(vals)
-      return vals;
-    })
+//     let latestMessage = await Promise.all(proms).then((vals) => {
+//       console.log("Images Stored")
+//       console.log(vals)
+//       return vals;
+//     })
 
-    setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
+//     setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
 
 
-  // You can run any code you want here.
-  // For example, making an API call, initializing variables, etc.
-}, []); // An empty dependency array means this effect runs once on component mount
+//   // You can run any code you want here.
+//   // For example, making an API call, initializing variables, etc.
+// }, []); // An empty dependency array means this effect runs once on component mount
 
 
 const sampleResponse = [
@@ -208,7 +234,6 @@ const sampleResponse = [
   }
 
   const scrollToBottom = () => {
-    // console.log("Called");
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(scrollToBottom, [messages]);
