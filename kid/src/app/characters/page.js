@@ -6,6 +6,8 @@ import styles from './characters.module.css'
 
 import { AiOutlineSearch } from 'react-icons/ai'
 
+import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
 import Link from "next/link";
 
@@ -28,6 +30,12 @@ export default function CharactersPage() {
   }
 
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  let router = useRouter()
+
+  function redirect() {
+    router.push('/chat')
+  }
 
   const characters = [
     { name: 'Iron Man', fileName: 'ironman' },
@@ -52,7 +60,7 @@ export default function CharactersPage() {
       localStorage.setItem("character", inputVal);
     }
 
-    redirect('/chat')
+    redirect()
   }
   const handleChange = (e) => {
     setInputVal(e.target.value)
@@ -64,8 +72,8 @@ export default function CharactersPage() {
 
         {/* <h1>Characters</h1> */}
 
-        <form class={styles.searchContainer} onSubmit={handleSubmit}>
-          <input type="text" id='text' class={styles.searchInput} onChange={(e) => handleChange(e)} />
+        <form className={styles.searchContainer} onSubmit={handleSubmit}>
+          <input type="text" id='text' className={styles.searchInput} onChange={(e) => handleChange(e)} />
           <button type='submit' className={styles.searchButton}>
             <AiOutlineSearch />
           </button>

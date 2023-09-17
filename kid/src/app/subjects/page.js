@@ -72,7 +72,7 @@ export default function SubjectsPage() {
       localStorage.setItem("topic", inputVal);
     }
 
-    redirect('/characters')
+    redirect()
   }
   const handleChange = (e) => {
     setInputVal(e.target.value)
@@ -83,8 +83,8 @@ export default function SubjectsPage() {
 
         {/* <h1>Subjects</h1> */}
 
-        <form class={styles.searchContainer} onSubmit={handleSubmit}>
-          <input type="text" id='text' class={styles.searchInput} onChange={(e)=>handleChange(e)} />
+        <form className={styles.searchContainer} onSubmit={handleSubmit}>
+          <input type="text" id='text' className={styles.searchInput} onChange={(e)=>handleChange(e)} />
           <button type='submit' className={styles.searchButton}>
             <AiOutlineSearch />
           </button>
