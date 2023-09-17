@@ -16,7 +16,7 @@ const handler = async (req: Request, res: Response) => {
     throw new BadRequestError("taskId not found")
   }
 
-  user!.currentTaskId = taskId
+  user!.topic = taskId
 
   await user!.save()
 
