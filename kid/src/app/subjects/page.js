@@ -4,8 +4,11 @@ import { useState } from 'react';
 
 import styles from './subjects.module.css'
 
+import { AiOutlineSearch } from 'react-icons/ai'
+
 import Image from 'next/image';
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 import { DM_Sans } from 'next/font/google'
 
@@ -17,13 +20,20 @@ const dm_sans = DM_Sans({
 
 
 export default function SubjectsPage() {
-  
+  // localStorage.clear()
+  let [inputVal, setInputVal] = useState();
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("subject");
     localStorage.removeItem("topic");
   }
 
   const [selectedSubject, setSelectedSubject] = useState(null);
+
+  let router = useRouter()
+
+  function redirect() {
+    router.push('/characters')
+  }
 
   const subjects = [
     { name: 'Maths', topics: ['Counting', 'Number Recognition', 'Basic Operations', 'Measurements'] },
@@ -54,11 +64,30 @@ export default function SubjectsPage() {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("subject", 'Miscellaneous');
+      localStorage.setItem("topic", inputVal);
+    }
+
+    redirect('/characters')
+  }
+  const handleChange = (e) => {
+    setInputVal(e.target.value)
+  }
   return (
     <div className={dm_sans.className}>
       <div className={styles.container}>
 
         {/* <h1>Subjects</h1> */}
+
+        <form class={styles.searchContainer} onSubmit={handleSubmit}>
+          <input type="text" id='text' class={styles.searchInput} onChange={(e)=>handleChange(e)} />
+          <button type='submit' className={styles.searchButton}>
+            <AiOutlineSearch />
+          </button>
+        </form>
 
         <div className={styles.subjectList}>
 
