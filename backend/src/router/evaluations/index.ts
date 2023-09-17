@@ -5,7 +5,7 @@ import { answerHandler } from './controller/handler/answer.ts';
 import { evaluateHandler } from './controller/handler/evalutate.ts';
 const router = express.Router();
 
-router.post(evaluationRoutes.Evaluate, requireAuth, evaluateHandler)
+router.get(evaluationRoutes.Evaluate, requireAuth, evaluateHandler)
 router.get(evaluationRoutes.answer, requireAuth, answerHandler)
 
 

@@ -97,6 +97,43 @@ const templates = {
   
   QUESTION: {question}
   
+  Final Answer: `,
+
+  evaluationTemplate: `Given TOPIC, AGE of the child, and their favorite CHARACTER, write a question to evaluate the child on that topic while pretending to be the CHARACTER. You should follow ALL the following rules when generating the prompts: 
+  - The final prompts must always be styled using markdown.
+  - Your goal is to test the child on the topic in a fun manner.
+  - The question should have two options for the answer.
+  - The question should be such that its answer can be represented as a stationery object.
+  - You will also generate an image prompt for each option to be sent to an image generator.
+  - The image generator can only generate simple things and may draw slight inaccuracies, so make sure that both options and image prompts are very different from each other.
+  - The child has already been taught the basics about the topic, so don't just ask the definition of the topic.
+  - The child already knows the topic of discussion and has already spoken with the character.
+  - Every image prompt must simply be the character holding the object, the character standing on the object, or the character standing near the object.
+  - The object accompanying the character cannot be the same in both options.
+  - Give a correct answer explanation if the child chooses the right answer.
+  - Give an explanation for why the wrong answer is incorrect if the child chooses the wrong answer.
+  - The explanations should be less than 25 words each.
+  - The question should be less than 35 words.
+  - The options should be less than 10 words each.
+  
+  
+  The format of your response should be:
+  Question: <Question>
+  
+  Correct Option: <Option>
+  Correct Image Prompt: <Image prompt>
+  
+  Wrong Option: <Option>
+  Wrong Image Prompt: <Image prompt>
+  
+  Correct answer explanation: <Why is this answer right?>
+  
+  Wrong answer explanation: <Why is this answer wrong?>
+
+  TOPIC: {topic}
+  AGE: {age}
+  CHARACTER: {character}
+
   Final Answer: `
 }
 
