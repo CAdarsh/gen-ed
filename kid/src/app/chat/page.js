@@ -24,8 +24,8 @@ export default function Chat() {
 
   const [storyResponse, setStoryResponse] = useState();
   const [suggestedFollowUps, setSuggestedFollowUps] = useState([
-    'What if plant runs out of CO2?',
-    'Is Manchester United real?',
+    // 'What if plant runs out of CO2?',
+    // 'Is Manchester United real?',
     'Concept Learned 👍',
   ]);
   const [messages, setMessages] = useState([]);
