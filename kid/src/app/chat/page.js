@@ -95,177 +95,8 @@ const storyResponses = await fetch("http://localhost:5000/api/v1/learner/story",
   .catch(error => console.log('error', error));
 
 
-// const storyResponses = sampleResponse;
-
-// await loadImages(await storyResponses);
-
-// let proms = await storyResponses.map(async (obj) => {
-//   const form = new FormData()
-//   form.append('prompt', obj["imageCaption"]["type"])
-  
-//   return await fetch('https://clipdrop-api.co/text-to-image/v1', {
-//     method: 'POST',
-//     headers: {
-//       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-//     },
-//     body: form,
-//   })
-//   .then(response => response.arrayBuffer())
-//   .then(buffer => {
-//     const blob = new Blob([buffer])
-//     const srcBlob = URL.createObjectURL(blob);
-//     console.log("Added Image")
-//     setImgData(srcBlob);
-//     return {...obj, imageSrc: srcBlob}
-//   })
-// })
-
-// let latestMessage = await Promise.all(proms).then((vals) => {
-//   console.log("Images Stored")
-//   console.log(vals)
-//   return vals;
-// })
-
-// setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
 }, [])
 
-
-// useEffect(async ()=>{
-//   if (storyResponses){
-
-//     console.log(typeof storyResponse)
-    // let proms = storyResponse.map(async (obj) => {
-    //   const form = new FormData()
-    //   form.append('prompt', obj["imageCaption"]["type"])
-      
-    //   return await fetch('https://clipdrop-api.co/text-to-image/v1', {
-    //     method: 'POST',
-    //     headers: {
-    //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-    //     },
-    //     body: form,
-    //   })
-    //   .then(response => response.arrayBuffer())
-    //   .then(buffer => {
-    //     const blob = new Blob([buffer])
-    //     const srcBlob = URL.createObjectURL(blob);
-    //     console.log("Added Image")
-    //     setImgData(srcBlob);
-    //     return {...obj, imageSrc: srcBlob}
-    //   })
-    // })
-    
-    // let latestMessage = await Promise.all(proms).then((vals) => {
-    //   console.log("Images Stored")
-    //   console.log(vals)
-    //   return vals;
-    // })
-    
-    // setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
-//   }
-//   }, [storyResponse])
-
-// chat initialisation request 
-// useEffect(async () => {
-//   // Your code here
-
-//   setSubject(subject);
-
-//   // // Make a POST request using the fetch API
-//   let messageData = await fetch('http://localhost:5000/api/v1/learner/story', {
-//     method: 'POST',
-//     mode: "no-cors", // no-cors, *cors, same-origin
-//     headers: {
-//       'Content-Type': 'application/json', // Specify the content type as JSON
-//     },
-//     body: JSON.stringify({age:10 ,favouriteCharacter:character ,topic}), // Convert the payload to JSON format
-//   })
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
-//       console.log("Called-Lol")
-//       return response.json(); // Parse the response as JSON
-//     })
-//     .then((responseData) => {
-//       return responseData;
-//     })
-//     .catch((err)=>{
-//       console.log("Error is:")
-//       console.error(err);
-//     })
-//     // console.log(messageData)
-//     // console.log("messageData")
-//     //   console.log(responseData)
-//     //   // setData(responseData); // Set the data in your component's state
-//     //   setLoading(false); // Set loading to false once data is fetched
-//     //   // await responseData.map(async (obj) => {
-//     //   //   const form = new FormData()
-//     //   //   form.append('prompt', obj["imageCaption"]["type"])
-        
-//     //   //   await fetch('https://clipdrop-api.co/text-to-image/v1', {
-//     //   //     method: 'POST',
-//     //   //     headers: {
-//     //   //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-//     //   //     },
-//     //   //     body: form,
-//     //   //   })
-//     //   //   .then(response => response.arrayBuffer())
-//     //   //   .then(buffer => {
-//     //   //     const blob = new Blob([buffer])
-//     //   //     const srcBlob = URL.createObjectURL(blob);
-//     //   //     console.log("Added Image")
-//     //   //     setImgData(srcBlob);
-//     //   //   })
-//     //   //   return {...obj, imageSrc: imgData}
-//     //   // })
-//     //   console.log("responseData")
-//     //   console.log(responseData)
-
-//     // })
-//     .catch((error) => {
-//       console.error('Error fetching data:', error);
-//       console.log("Bad")
-//       setLoading(false); // Set loading to false in case of an error
-//     });
-
-//     // let responseData = sampleResponse;
-//     let responseData = messageData;
-    
-
-//     let proms = responseData.map(async (obj) => {
-//       const form = new FormData()
-//       form.append('prompt', obj["imageCaption"]["type"])
-      
-//       return await fetch('https://clipdrop-api.co/text-to-image/v1', {
-//         method: 'POST',
-//         headers: {
-//           'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
-//         },
-//         body: form,
-//       })
-//       .then(response => response.arrayBuffer())
-//       .then(buffer => {
-//         const blob = new Blob([buffer])
-//         const srcBlob = URL.createObjectURL(blob);
-//         console.log("Added Image")
-//         setImgData(srcBlob);
-//         return {...obj, imageSrc: srcBlob}
-//       })
-//     })
-
-//     let latestMessage = await Promise.all(proms).then((vals) => {
-//       console.log("Images Stored")
-//       console.log(vals)
-//       return vals;
-//     })
-
-//     setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
-
-
-//   // You can run any code you want here.
-//   // For example, making an API call, initializing variables, etc.
-// }, []); // An empty dependency array means this effect runs once on component mount
 
 
 const sampleResponse = [
@@ -314,6 +145,28 @@ const sampleResponse = [
 
     // Clear the input field
     e.target.message.value = '';
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "input": message
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:5000/api/v1/learner/chat", requestOptions)
+      .then(response => response.json())
+      .then(async result => await loadImages(result))
+      .then(() => {
+        setLoading(false)})
+      .catch(error => console.log('error', error));
+      
   };
 
   const suggestedTrigger = (prompt) => {
@@ -343,17 +196,6 @@ const sampleResponse = [
   };
   useEffect(scrollToBottom, [messages]);
 
-
-  //   remove the below useeffect function. Just demonstrating the animation is closed  
-// useEffect(() => {
-//     let i = 0;
-//     function pollDOM() {
-//         setLoading(false);
-//         console.log("Called")
-//     }
-//     const interval = setInterval(pollDOM, 6000);
-//     return () => clearInterval(interval);
-//   }, [])
 
   return (
     <div className={dm_sans.className}>
@@ -386,7 +228,7 @@ const sampleResponse = [
                         <Image
                           src={data.imageSrc}
                           width={360}
-                          height={240}
+                          height={360}
                           style={chatImageStyle}
                           alt="My image"
                         />
