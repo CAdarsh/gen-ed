@@ -19,6 +19,7 @@ const dm_sans = DM_Sans({
 
 export default function CharactersPage() {
 
+
   if (typeof window !== "undefined" && window.localStorage) {
     localStorage.removeItem("character");
   }
@@ -33,7 +34,7 @@ export default function CharactersPage() {
     { name: 'Elsa', fileName: 'elsa' },
     { name: 'Harry Potter', fileName: 'harrypotter' },
     { name: 'Cookie Monstor', fileName: 'cookiemonstor' },
-    { name: 'Barney the Dinosaur', fileName: 'barney'}
+    { name: 'Barney the Dinosaur', fileName: 'barney' }
   ];
 
   const handleCharacterClick = (character) => {
