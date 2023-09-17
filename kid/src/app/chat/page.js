@@ -19,6 +19,9 @@ export default function Chat() {
   const [isLoading, setLoading] = useState(false);
   const [imgData, setImgData] = useState(false);
   const [subject, setSubject] = useState("");
+  const [topic, setTopic] = useState("");
+
+  const [storyResponse, setStoryResponse] = useState();
   const [ suggestedFollowUps, setSuggestedFollowUps ] = useState([
     "What if plant runs out of CO2?",
     "Is Manchester United real?",
@@ -26,19 +29,49 @@ export default function Chat() {
   ])
   const [messages, setMessages] = useState([]);
 
-// {
-//   message: "Thanks I got it!",
-//   sender: "User"
-// }
-useEffect(() => {
+
+const loadImages = async (storyResponses) => {
+  console.log({storyResponses})
+    let proms = await storyResponses.map(async (obj) => {
+      const form = new FormData()
+      form.append('prompt', obj["imageCaption"])
+      return await fetch('https://clipdrop-api.co/text-to-image/v1', {
+        method: 'POST',
+        headers: {
+          'x-api-key': "d5d792c3a2cc2106c0432d13e1cbb787501b8981d3d597192bcd1e617524396f09f0091ca1b0fc3b08375a02b5d677a1",
+        },
+        body: form,
+      })
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        const blob = new Blob([buffer])
+        const srcBlob = URL.createObjectURL(blob);
+        console.log("Added Image")
+        setImgData(srcBlob);
+        return {...obj, imageSrc: srcBlob}
+      })
+    })
+
+    let latestMessage = await Promise.all(proms).then((vals) => {
+      console.log("Images Stored")
+      console.log(vals)
+      return vals;
+    })
+
+    await setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
+}
+
+
+
+useEffect(async () => {
+
   var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-
-
-const subject = localStorage.getItem('subject');
-const character = localStorage.getItem('character');
-const topic = localStorage.getItem('topic');
-
+  myHeaders.append("Content-Type", "application/json");
+  const subject = localStorage.getItem('subject');
+  const character = localStorage.getItem('character');
+  const topic = localStorage.getItem('topic');
+  console.log(topic)
+  setTopic(topic);
 
 var raw = JSON.stringify({
   "age": 10,
@@ -53,12 +86,84 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://localhost:5000/api/v1/learner/story", requestOptions)
-  .then(response => response.text())
-  .then(result => result)
+const storyResponses = await fetch("http://localhost:5000/api/v1/learner/story", requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    return result;
+  })
+  .then(async res => await loadImages(res))
   .catch(error => console.log('error', error));
+
+
+// const storyResponses = sampleResponse;
+
+// await loadImages(await storyResponses);
+
+// let proms = await storyResponses.map(async (obj) => {
+//   const form = new FormData()
+//   form.append('prompt', obj["imageCaption"]["type"])
+  
+//   return await fetch('https://clipdrop-api.co/text-to-image/v1', {
+//     method: 'POST',
+//     headers: {
+//       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
+//     },
+//     body: form,
+//   })
+//   .then(response => response.arrayBuffer())
+//   .then(buffer => {
+//     const blob = new Blob([buffer])
+//     const srcBlob = URL.createObjectURL(blob);
+//     console.log("Added Image")
+//     setImgData(srcBlob);
+//     return {...obj, imageSrc: srcBlob}
+//   })
+// })
+
+// let latestMessage = await Promise.all(proms).then((vals) => {
+//   console.log("Images Stored")
+//   console.log(vals)
+//   return vals;
+// })
+
+// setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
 }, [])
 
+
+// useEffect(async ()=>{
+//   if (storyResponses){
+
+//     console.log(typeof storyResponse)
+    // let proms = storyResponse.map(async (obj) => {
+    //   const form = new FormData()
+    //   form.append('prompt', obj["imageCaption"]["type"])
+      
+    //   return await fetch('https://clipdrop-api.co/text-to-image/v1', {
+    //     method: 'POST',
+    //     headers: {
+    //       'x-api-key': "f6be9f40f65b8082bc180a8b3eca687a9f5937fe44571d01ace7112cafc68a498323d13223a290b8dcb334a2b0c55ddd",
+    //     },
+    //     body: form,
+    //   })
+    //   .then(response => response.arrayBuffer())
+    //   .then(buffer => {
+    //     const blob = new Blob([buffer])
+    //     const srcBlob = URL.createObjectURL(blob);
+    //     console.log("Added Image")
+    //     setImgData(srcBlob);
+    //     return {...obj, imageSrc: srcBlob}
+    //   })
+    // })
+    
+    // let latestMessage = await Promise.all(proms).then((vals) => {
+    //   console.log("Images Stored")
+    //   console.log(vals)
+    //   return vals;
+    // })
+    
+    // setMessages([...messages, { message: latestMessage, sender: "Agent" }]);
+//   }
+//   }, [storyResponse])
 
 // chat initialisation request 
 // useEffect(async () => {
@@ -259,7 +364,7 @@ const sampleResponse = [
         className={styles.mainCont}>
     <div className={styles.subCont}>
        <h1>Limitless</h1>
-      <h2>Topic of the day: {subject}</h2>
+      <h2>Topic of the day: {topic}</h2>
    
     <div className={styles.chatCont}
          >
@@ -285,7 +390,7 @@ const sampleResponse = [
                           style={chatImageStyle}
                           alt="My image"
                         />
-                          { data["text"]["type"]}
+                          { data["text"]}
                           </>
 )                }) }
                    
